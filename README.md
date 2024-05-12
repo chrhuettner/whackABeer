@@ -17,6 +17,12 @@ Bei Whack a Beer geht es darum schlechte Biersorten anzuklicken um sie zu zerst√
 * Highscores am server speichern (Data centricity)
 * Chat im multiplayer
 * Special gestures (Swipes, doppel-click statt einfach-click) bei bierdosen damit der Spieler mehr Punkte erzielen kann
-* (OPTIONAL) Sensornutzung 
+
+# Topics
+
+* Data centricity
+* Multi-device
+* special gestures
+* (OPTIONAL) Sensornutzung
 
   
