@@ -25,4 +25,8 @@ Bei Whack a Beer geht es darum schlechte Biersorten anzuklicken um sie zu zerst�
 * special gestures
 * (OPTIONAL) Sensornutzung
 
-  
+# Arbeitsaufteilung
+
+* Gameplay: Hüttner, Kornfeld, Mrsic
+* Server: Hüttner
+* GUI: Kornfeld, Mrsic
