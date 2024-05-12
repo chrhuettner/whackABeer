@@ -10,12 +10,13 @@ Bei Whack a Beer geht es darum schlechte Biersorten anzuklicken um sie zu zerst�
 
 # Implementation
 
-* Jetpack compose GUI
-* Lokaler multiplayer mit Network discovery library von Google, ein Teilnehmer (Host) agiert als Server. Es wird mit einem custom message protocol kommuniziert.
+* Lokaler multiplayer mit Network discovery library von Google, ein Teilnehmer (Host) agiert als Server (multi-device). Es wird mit einem custom message protocol kommuniziert.
 * Gameplay loop besteht aus anklickbaren Bildern welche zufällig erscheinen und dem Spieler Punkte geben oder abziehen
 * Es soll bei jedem Spieler der aktuelle Spielstand angezeigt werden
 * Nach X viele Sekunden hört das Spiel auf (vom Host einstellbar, eventuell andere Parameter auch)
-* Highscores lokal speichern
-* Chat im multiplayer 
+* Highscores am server speichern (Data centricity)
+* Chat im multiplayer
+* Special gestures (Swipes, doppel-click statt einfach-click) bei bierdosen damit der Spieler mehr Punkte erzielen kann
+* (OPTIONAL) Sensornutzung 
 
   
