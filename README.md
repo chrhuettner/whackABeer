@@ -23,6 +23,7 @@ Bei Whack a Beer geht es darum schlechte Biersorten anzuklicken um sie zu zerst√
 * Data centricity
 * Multi-device
 * special gestures
+* (OPTIONAL) Sensornutzung
 
 # Arbeitsaufteilung
 
