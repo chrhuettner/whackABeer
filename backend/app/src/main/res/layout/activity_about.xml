@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bierchen_new"
+    tools:context=".AboutActivity">
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="170dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/puntilogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/button_rounded_shape"
+        android:backgroundTint="@color/white_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoImageView"
+        android:layout_marginTop="16dp"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="whack A Beer"
+            android:textColor="@color/punti_blau"
+            android:textSize="50sp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Bei Whack a Beer geht es darum schlechte Biersorten anzuklicken um sie zu zerstören, damit bekommt man Punkte. Wenn man gute Biersorten anklickt verliert man Punkte. Das Projekt ist also ähnlich wie whack a mole. Für den Singleplayer-Mode könnten wir mehrere Level/Schwierigkeitsstufen implementieren. Optional könnten wir hier Multiplayer features implementieren. Zum beispiel high scores oder LAN multiplayer wo jeder Spieler eine Biersorte bekommt die er anklicken soll."
+            android:textColor="@color/punti_blau"
+            android:textSize="18dp" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imageGitHub"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="28dp"
+        android:layout_weight="1"
+        android:contentDescription="GitHub"
+        android:onClick="openGitHub"
+        android:src="@drawable/github_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="onCloseClicked"
+        android:src="?attr/homeAsUpIndicator"
+        android:background="@drawable/button_rounded_shape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
