@@ -8,6 +8,9 @@ public class Constants {
 
     public static final String PING = "PING";
 
+    public static final String LOG_NETWORK = String.format("%s-Network", LOG_MAIN);
+
+
 
 
 
