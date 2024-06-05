@@ -9,4 +9,7 @@ public class Config {
     public static enum ROLE {CLIENT, SERVER};
     public static ROLE role = ROLE.CLIENT;
 
+    public static int MAX_CLIENTS = 6;
+
+
 }

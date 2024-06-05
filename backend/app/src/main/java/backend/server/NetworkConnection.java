@@ -14,9 +14,8 @@ import java.net.Socket;
 import java.util.ArrayDeque;
 
 
-public class NetworkConnection extends Thread { //execute each instance within a separate thread
+public class NetworkConnection extends Thread {
 
-    //properties needed
     private Socket socket;
     private BufferedWriter writer;
     private BufferedReader reader;
