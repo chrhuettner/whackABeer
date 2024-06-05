@@ -15,7 +15,7 @@ import backend.server.ServerResponse.RespondToPing;
 import backend.server.ServerResponse.ServerResponseInterface;
 
 
-public class ServerHandler extends Handler {
+public class ServerResponseHandler extends Handler {
 
 
     private AppCompatActivity uiActivity;
@@ -28,7 +28,7 @@ public class ServerHandler extends Handler {
         actionMap.put(Constants.PING, pingActions);
     }
 
-    public ServerHandler(AppCompatActivity uiActivity) {
+    public ServerResponseHandler(AppCompatActivity uiActivity) {
         this.uiActivity = uiActivity;
 
     }
@@ -50,5 +50,14 @@ public class ServerHandler extends Handler {
         Log.e("ERROR", actionSplit[0] + " NOT FOUND");
     }
 
+    public AppCompatActivity getUiActivity() {
+        return uiActivity;
+    }
+
+    public void replaceActivity(AppCompatActivity activity) {
+        synchronized (uiActivity) {
+            this.uiActivity = activity;
+        }
+    }
 
 }

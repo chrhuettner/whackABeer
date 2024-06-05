@@ -21,6 +21,9 @@ public class ClientHandler extends Handler {
     private AppCompatActivity uiActivity;
     private static final HashMap<String, ArrayList<ClientActionInterface>> actionMap = new HashMap<>();
 
+    private static ClientConnection client;
+
+
     static {
 
 
@@ -29,14 +32,15 @@ public class ClientHandler extends Handler {
         actionMap.put(Constants.PING, pingActions);
     }
 
-
+    public static void setClient(ClientConnection connection) {
+        client = connection;
+    }
     public static void sendMessageToServer(String activity, String prefix, String args) {
-       //TODO
+        client.sendMessage(activity + ":" + prefix + " " + args);
     }
 
     public ClientHandler(AppCompatActivity uiActivity) {
         this.uiActivity = uiActivity;
-
     }
 
     @Override
@@ -54,6 +58,16 @@ public class ClientHandler extends Handler {
             return;
         }
         Log.e("ERROR", actionSplit[0] + " NOT FOUND");
+    }
+
+    public AppCompatActivity getUiActivity() {
+        return uiActivity;
+    }
+
+    public void replaceActivity(AppCompatActivity activity) {
+        synchronized (uiActivity) {
+            this.uiActivity = activity;
+        }
     }
 
 }
