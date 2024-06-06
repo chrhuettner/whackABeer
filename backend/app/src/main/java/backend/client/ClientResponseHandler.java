@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import backend.client.ClientResponses.ActionPing;
@@ -37,6 +38,17 @@ public class ClientResponseHandler extends Handler {
     }
     public static void sendMessageToServer(String activity, String prefix, String args) {
         client.send(activity + ":" + prefix + " " + args);
+    }
+
+    public static void sendMessageToServer(String activity, String prefix, Object[] args) {
+        StringBuilder message = new StringBuilder();
+        for (Object element : args) {
+            message.append(element);
+            if (Arrays.asList(args).indexOf(element) != args.length - 1) {
+                message.append(";");
+            }
+        }
+        sendMessageToServer(activity, prefix, message.toString());
     }
 
     public ClientResponseHandler(AppCompatActivity uiActivity) {

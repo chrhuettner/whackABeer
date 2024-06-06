@@ -4,6 +4,7 @@ import static backend.network.NetworkServiceFinder.SERVICE_TYPE;
 
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import backend.network.NetworkServiceDiscoveryClient;
 import backend.network.NetworkServiceDiscoveryListener;
 import backend.server.ServerActionHandler;
 import backend.server.ServerNetwork;
+import whack.beer.R;
 
 public class TestMain {
 
@@ -30,12 +32,32 @@ public class TestMain {
     public static void main(TestActivity testActivity) {
 
         TestMain.testActivity = testActivity;
-        Log.i("analyze","registerActivity");
+        Log.i("analyze", "registerActivity");
         logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, testActivity);
+
+        Button hostButton = testActivity.findViewById(R.id.host_Button);
+        Button joinButton = testActivity.findViewById(R.id.join_button);
+        Button pingButton = testActivity.findViewById(R.id.button_Ping);
+
+        hostButton.setOnClickListener(view -> {
+            try {
+                startServer();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        joinButton.setOnClickListener(view -> {
+            discoverServer();
+        });
+
+        pingButton.setOnClickListener(view -> {
+            pingAllClients();
+        });
 
     }
 
-    public static void discoverServer(){
+    public static void discoverServer() {
         Config.role = Config.ROLE.CLIENT;
 
         NetworkServiceDiscoveryClient discoveryClient = new NetworkServiceDiscoveryClient(testActivity, SERVICE_TYPE);
@@ -45,9 +67,9 @@ public class TestMain {
         discoveryClient.startDiscovery(listener);
     }
 
-    public static void pingAllClients(){
-        if(Config.role == Config.ROLE.SERVER){
-            for(int i = 1; i<=Config.amountOfClients;i++){
+    public static void pingAllClients() {
+        if (Config.role == Config.ROLE.SERVER) {
+            for (int i = 1; i <= Config.amountOfClients; i++) {
                 ServerActionHandler.triggerAction(Constants.PING, i);
             }
         }
@@ -57,7 +79,7 @@ public class TestMain {
         hosts.add(host);
         Log.d(Constants.LOG_MAIN, "Found host " + host.getHost());
 
-        Toast.makeText(testActivity,"Found host " + host.getHost(),
+        Toast.makeText(testActivity, "Found host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
         NetworkConnection client = new NetworkConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
@@ -68,7 +90,7 @@ public class TestMain {
     public static void removeHost(NsdServiceInfo host) {
         hosts.remove(host);
 
-        Toast.makeText(testActivity,"Lost host " + host.getHost(),
+        Toast.makeText(testActivity, "Lost host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
         Log.d(Constants.LOG_MAIN, "Lost host " + host.getHost());
@@ -76,7 +98,7 @@ public class TestMain {
     }
 
     public static void startServer() throws InterruptedException {
-        Log.i("analyze","Starting the server");
+        Log.i("analyze", "Starting the server");
 
         Config.role = Config.ROLE.SERVER;
         logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, testActivity);
@@ -87,11 +109,11 @@ public class TestMain {
         NetworkConnection client = new NetworkConnection("localhost", server.getPort(), 1000, logic);
         ServerActionHandler.setServer(server);
         client.start();
-        Log.i("analyze","Host is set as a client on this server");
+        Log.i("analyze", "Host is set as a client on this server");
 
         ClientResponseHandler.setClient(client);
 
-        Toast.makeText(testActivity,"Server started ",
+        Toast.makeText(testActivity, "Server started ",
                 Toast.LENGTH_SHORT).show();
 
         Thread.sleep(100);

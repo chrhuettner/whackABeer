@@ -6,6 +6,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import frontend.TestMain;
+
 
 public class NetworkServiceDiscoveryListener implements NsdManager.DiscoveryListener{
     private final AppCompatActivity activity;
@@ -62,6 +64,7 @@ public class NetworkServiceDiscoveryListener implements NsdManager.DiscoveryList
             @Override
             public void onServiceResolved(NsdServiceInfo nsdServiceInfo) {
                 printStatusMessage("Successfully resolved service!");
+                TestMain.addHost(nsdServiceInfo);
                 Log.d("Game-", nsdServiceInfo.toString());
             }
         });
@@ -72,6 +75,8 @@ public class NetworkServiceDiscoveryListener implements NsdManager.DiscoveryList
     @Override
     public void onServiceLost(NsdServiceInfo nsdServiceInfo) {
         Log.d("Client-HostList", "I have lost a service!");
+        TestMain.removeHost(nsdServiceInfo);
+
         printStatusMessage("A new service has been lost!");
 
     }

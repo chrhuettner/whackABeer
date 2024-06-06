@@ -111,7 +111,13 @@ public class NetworkConnection extends Thread {
                     String msg = reader.readLine();
                     Log.d(TAG, "Incoming message " + msg);
                     this.lastMsgReceived = msg;
-                    //TODO: Interpret message with a Logic class
+                    if (logic != null) {
+
+                        String[] messageSplit = msg.split(":");
+                        if (messageSplit.length >= 2) {
+                            logic.sendHandle(messageSplit[1], messageSplit[0], isServerConnection);
+                        }
+                    }
                 }
 
                 sendThroughNetwork();
@@ -226,6 +232,7 @@ public class NetworkConnection extends Thread {
             isRunning = false;
         }
     }
+
     public int getClientId() {
         return clientId;
     }

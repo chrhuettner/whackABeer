@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import backend.server.R;
+import whack.beer.R;
 
 
 public class TestActivity extends AppCompatActivity {
