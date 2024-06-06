@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import backend.client.ClientResponses.RespondToPing;
-import backend.client.ClientResponses.ClientActionInterface;
+import backend.client.ClientResponses.ClientResponseInterface;
 import backend.network.NetworkConnection;
 import shared.Constants;
 
@@ -22,13 +22,13 @@ public class ClientResponseHandler extends Handler {
 
 
     private AppCompatActivity uiActivity;
-    private static final HashMap<String, ArrayList<ClientActionInterface>> actionMap = new HashMap<>();
+    private static final HashMap<String, ArrayList<ClientResponseInterface>> actionMap = new HashMap<>();
 
     private static NetworkConnection client;
 
 
     static {
-        ArrayList<ClientActionInterface> pingActions = new ArrayList<>();
+        ArrayList<ClientResponseInterface> pingActions = new ArrayList<>();
         pingActions.add(new RespondToPing());
         actionMap.put(Constants.PING, pingActions);
     }
@@ -63,7 +63,7 @@ public class ClientResponseHandler extends Handler {
         if (actionMap.containsKey(actionSplit[0])) {
             Log.i("INFO", "TRIGGERED " + actionSplit[0]);
             synchronized (uiActivity) {
-                for (ClientActionInterface clientAction : actionMap.get(actionSplit[0])) {
+                for (ClientResponseInterface clientAction : actionMap.get(actionSplit[0])) {
                     clientAction.execute(uiActivity, message);
                 }
             }

@@ -10,7 +10,7 @@ import shared.Config;
 import shared.Constants;
 
 
-public class RespondToPing implements ClientActionInterface {
+public class RespondToPing implements ClientResponseInterface {
     @Override
     public void execute(AppCompatActivity activity, String clientMessage) {
         String parameter = clientMessage.split(" ")[1];
