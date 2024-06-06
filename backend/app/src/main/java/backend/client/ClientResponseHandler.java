@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import backend.client.ClientResponses.ActionPing;
+import backend.client.ClientResponses.RespondToPing;
 import backend.client.ClientResponses.ClientActionInterface;
 import backend.network.NetworkConnection;
 import shared.Constants;
@@ -29,7 +29,7 @@ public class ClientResponseHandler extends Handler {
 
     static {
         ArrayList<ClientActionInterface> pingActions = new ArrayList<>();
-        pingActions.add(new ActionPing());
+        pingActions.add(new RespondToPing());
         actionMap.put(Constants.PING, pingActions);
     }
 
