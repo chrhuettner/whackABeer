@@ -17,7 +17,7 @@ import backend.client.ClientResponseHandler;
 import backend.client.ResponseLogic;
 import backend.network.NetworkServiceDiscoveryClient;
 import backend.network.NetworkServiceDiscoveryListener;
-import backend.server.ServerActionHandler;
+import backend.server.ServerRequestHandler;
 import backend.server.ServerNetwork;
 import whack.beer.R;
 
@@ -70,7 +70,7 @@ public class TestMain {
     public static void pingAllClients() {
         if (Config.role == Config.ROLE.SERVER) {
             for (int i = 1; i <= Config.amountOfClients; i++) {
-                ServerActionHandler.triggerAction(Constants.PING, i);
+                ServerRequestHandler.triggerAction(Constants.PING, i);
             }
         }
     }
@@ -107,7 +107,7 @@ public class TestMain {
         Thread.sleep(100);
 
         NetworkConnection client = new NetworkConnection("localhost", server.getPort(), 1000, logic);
-        ServerActionHandler.setServer(server);
+        ServerRequestHandler.setServer(server);
         client.start();
         Log.i("analyze", "Host is set as a client on this server");
 

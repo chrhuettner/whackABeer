@@ -11,13 +11,13 @@ import backend.server.ServerRequests.RequestPing;
 import backend.server.ServerRequests.ServerRequestInterface;
 
 
-public class ServerActionHandler {
+public class ServerRequestHandler {
     public static final HashMap<String, ArrayList<ServerRequestInterface>> actionMap = new HashMap<>();
 
     private static ServerNetwork server;
 
 
-    private ServerActionHandler() {
+    private ServerRequestHandler() {
         // no instantiation of class
     }
 
@@ -43,7 +43,7 @@ public class ServerActionHandler {
     }
 
     public static void setServer(ServerNetwork server) {
-        ServerActionHandler.server = server;
+        ServerRequestHandler.server = server;
     }
 
 }
