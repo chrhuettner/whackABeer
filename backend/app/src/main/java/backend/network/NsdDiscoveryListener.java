@@ -1,4 +1,4 @@
-package backend.server;
+package backend.network;
 
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;

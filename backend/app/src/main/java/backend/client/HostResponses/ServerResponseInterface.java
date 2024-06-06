@@ -1,8 +1,9 @@
-package backend.server.ClientAction;
+package backend.client.HostResponses;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public interface ClientActionInterface {
+public interface ServerResponseInterface {
 
     public void execute(AppCompatActivity activity, String clientMessage);
+
 }

@@ -6,12 +6,13 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import backend.server.ServerAction.RequestPing;
-import backend.server.ServerAction.ServerActionInterface;
+import shared.Constants;
+import backend.server.ServerRequests.RequestPing;
+import backend.server.ServerRequests.ServerRequestInterface;
 
 
 public class ServerActionHandler {
-    public static final HashMap<String, ArrayList<ServerActionInterface>> actionMap = new HashMap<>();
+    public static final HashMap<String, ArrayList<ServerRequestInterface>> actionMap = new HashMap<>();
 
     private static ServerNetwork server;
 
@@ -21,7 +22,7 @@ public class ServerActionHandler {
     }
 
     static {
-        ArrayList<ServerActionInterface> pingActions = new ArrayList<>();
+        ArrayList<ServerRequestInterface> pingActions = new ArrayList<>();
         pingActions.add(new RequestPing());
         actionMap.put(Constants.PING, pingActions);
     }
@@ -32,7 +33,7 @@ public class ServerActionHandler {
             return;
         }
         if (actionMap.containsKey(name)) {
-            for (ServerActionInterface serverAction : actionMap.get(name)) {
+            for (ServerRequestInterface serverAction : actionMap.get(name)) {
                 serverAction.execute(server, parameters);
             }
             return;

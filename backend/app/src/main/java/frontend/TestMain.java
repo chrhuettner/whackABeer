@@ -1,26 +1,31 @@
-package backend.server;
+package frontend;
 
-import static backend.server.NetworkServiceFinder.SERVICE_TYPE;
+import static backend.network.NetworkServiceFinder.SERVICE_TYPE;
 
-import android.content.Intent;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import shared.Config;
+import shared.Constants;
+import backend.client.ClientConnection;
+import backend.client.ClientResponseHandler;
+import backend.client.ResponseLogic;
+import backend.network.NetworkServiceDiscoveryClient;
+import backend.network.NsdDiscoveryListener;
+import backend.server.ServerActionHandler;
+import backend.server.ServerNetwork;
 
 public class TestMain {
 
     public static ArrayList<NsdServiceInfo> hosts = new ArrayList<>();
 
-    public static ClientLogic logic = new ClientLogic(new HashMap<>(), new HashMap<>());
+    public static ResponseLogic logic = new ResponseLogic(new HashMap<>(), new HashMap<>());
 
     public static AppCompatActivity testActivity;
 
@@ -59,7 +64,7 @@ public class TestMain {
 
         ClientConnection client = new ClientConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
         client.start();
-        ClientHandler.setClient(client);
+        ClientResponseHandler.setClient(client);
     }
 
     public static void removeHost(NsdServiceInfo host) {
@@ -86,7 +91,7 @@ public class TestMain {
         client.start();
         Log.i("analyze","Host is set as a client on this server");
 
-        ClientHandler.setClient(client);
+        ClientResponseHandler.setClient(client);
 
         Toast.makeText(testActivity,"Server started ",
                 Toast.LENGTH_SHORT).show();

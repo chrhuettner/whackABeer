@@ -1,10 +1,12 @@
-package backend.server;
+package backend.client;
+
+import backend.network.NetworkConnection;
 
 public class ClientConnection {
 
     private final NetworkConnection connection;
 
-    public ClientConnection(String ip, int port, int timeout, ClientLogic logic) {
+    public ClientConnection(String ip, int port, int timeout, ResponseLogic logic) {
         this.connection = new NetworkConnection(ip,  port, timeout, logic);
     }
 

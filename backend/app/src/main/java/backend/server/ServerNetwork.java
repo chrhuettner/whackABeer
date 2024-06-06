@@ -1,7 +1,7 @@
 package backend.server;
 
-import static backend.server.Constants.LOG_ERROR;
-import static backend.server.Constants.LOG_NETWORK;
+import static shared.Constants.LOG_ERROR;
+import static shared.Constants.LOG_NETWORK;
 
 import android.content.Context;
 import android.util.Log;
@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import shared.Config;
+import backend.network.NetworkConnection;
+import backend.network.NetworkServiceFinder;
+import frontend.TestMain;
 
 public class ServerNetwork extends Thread {
 

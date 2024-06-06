@@ -1,8 +1,8 @@
-package backend.server.ServerAction;
+package backend.server.ServerRequests;
 
 import backend.server.ServerNetwork;
 
-public interface ServerActionInterface {
+public interface ServerRequestInterface {
 
     public void execute(ServerNetwork server, Object parameters);
 }

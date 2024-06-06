@@ -1,4 +1,4 @@
-package backend.server.ServerResponse;
+package backend.client.HostResponses;
 
 
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import backend.server.Constants;
+import shared.Constants;
 
 
 public class RespondToPing implements ServerResponseInterface {

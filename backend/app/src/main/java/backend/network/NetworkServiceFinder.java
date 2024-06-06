@@ -1,6 +1,6 @@
-package backend.server;
+package backend.network;
 
-import static backend.server.Constants.LOG_NETWORK;
+import static shared.Constants.LOG_NETWORK;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
@@ -13,7 +13,7 @@ public class NetworkServiceFinder {
     private static final String SERVICE_NAME = "_WHACK-BEER";
 
     private static final String SERVICE_PROTOCOLL ="_tcp";
-    static final String SERVICE_TYPE = SERVICE_NAME+"."+SERVICE_PROTOCOLL; // service type to be registered
+    public static final String SERVICE_TYPE = SERVICE_NAME+"."+SERVICE_PROTOCOLL; // service type to be registered
     private static final String TAG = LOG_NETWORK + "-NSD";
 
     private NsdManager nsdManager;

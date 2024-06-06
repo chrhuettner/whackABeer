@@ -1,11 +1,11 @@
-package backend.server.ServerAction;
+package backend.server.ServerRequests;
 
 
-import backend.server.Constants;
+import shared.Constants;
 import backend.server.ServerNetwork;
 
 
-public class RequestPing implements ServerActionInterface {
+public class RequestPing implements ServerRequestInterface {
     @Override
     public void execute(ServerNetwork server, Object parameters) {
         int id = (int) parameters;

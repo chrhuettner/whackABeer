@@ -1,12 +1,9 @@
-package backend.server.ClientAction;
+package backend.client.ClientResponses;
 
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import backend.server.Config;
-import backend.server.Constants;
 
 
 public class ActionPing implements ClientActionInterface {

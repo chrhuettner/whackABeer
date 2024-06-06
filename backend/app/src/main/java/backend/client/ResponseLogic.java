@@ -1,4 +1,4 @@
-package backend.server;
+package backend.client;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -8,15 +8,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 
-public class ClientLogic {
+public class ResponseLogic {
 
-    private HashMap<String, ClientHandler> handlers;
+    private HashMap<String, ClientResponseHandler> handlers;
 
-    private HashMap<String, ServerResponseHandler> serverHandlers;
+    private HashMap<String, HostResponseHandler> serverHandlers;
 
     public static boolean isTEST;
 
-    public ClientLogic(HashMap<String, ClientHandler> handlers, HashMap<String, ServerResponseHandler> serverHandlers) {
+    public ResponseLogic(HashMap<String, ClientResponseHandler> handlers, HashMap<String, HostResponseHandler> serverHandlers) {
 
         this.handlers = handlers;
         this.serverHandlers = serverHandlers;
@@ -73,7 +73,7 @@ public class ClientLogic {
         }
     }
 
-    public HashMap<String, ClientHandler> getHandler() {
+    public HashMap<String, ClientResponseHandler> getHandler() {
         return handlers;
     }
 
@@ -83,7 +83,7 @@ public class ClientLogic {
                 Log.i("LOGICINFO", "ALREADY CONTAINS " + type + " with signature " + handlers.get(type).getUiActivity());
                 handlers.get(type).replaceActivity(activity);
             } else {
-                handlers.put(type, new ClientHandler(activity));
+                handlers.put(type, new ClientResponseHandler(activity));
             }
         }
     }
@@ -94,7 +94,7 @@ public class ClientLogic {
                 Log.i("LOGICINFO", "serverHandlers ALREADY CONTAINS " + type + " with signature " + serverHandlers.get(type).getUiActivity());
                 serverHandlers.get(type).replaceActivity(activity);
             } else {
-                serverHandlers.put(type, new ServerResponseHandler(activity));
+                serverHandlers.put(type, new HostResponseHandler(activity));
             }
         }
     }

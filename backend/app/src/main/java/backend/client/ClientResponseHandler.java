@@ -1,4 +1,4 @@
-package backend.server;
+package backend.client;
 
 
 import android.os.Handler;
@@ -11,26 +11,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import backend.server.ServerResponse.RespondToPing;
-import backend.server.ServerResponse.ServerResponseInterface;
+import backend.client.ClientResponses.ActionPing;
+import backend.client.ClientResponses.ClientActionInterface;
+import shared.Constants;
 
 
-public class ServerResponseHandler extends Handler {
+public class ClientResponseHandler extends Handler {
 
 
     private AppCompatActivity uiActivity;
-    private static final HashMap<String, ArrayList<ServerResponseInterface>> actionMap = new HashMap<>();
+    private static final HashMap<String, ArrayList<ClientActionInterface>> actionMap = new HashMap<>();
+
+    private static ClientConnection client;
 
 
     static {
-        ArrayList<ServerResponseInterface> pingActions = new ArrayList<>();
-        pingActions.add(new RespondToPing());
+
+
+        ArrayList<ClientActionInterface> pingActions = new ArrayList<>();
+        pingActions.add(new ActionPing());
         actionMap.put(Constants.PING, pingActions);
     }
 
-    public ServerResponseHandler(AppCompatActivity uiActivity) {
-        this.uiActivity = uiActivity;
+    public static void setClient(ClientConnection connection) {
+        client = connection;
+    }
+    public static void sendMessageToServer(String activity, String prefix, String args) {
+        client.sendMessage(activity + ":" + prefix + " " + args);
+    }
 
+    public ClientResponseHandler(AppCompatActivity uiActivity) {
+        this.uiActivity = uiActivity;
     }
 
     @Override
@@ -41,7 +52,7 @@ public class ServerResponseHandler extends Handler {
         if (actionMap.containsKey(actionSplit[0])) {
             Log.i("INFO", "TRIGGERED " + actionSplit[0]);
             synchronized (uiActivity) {
-                for (ServerResponseInterface clientAction : actionMap.get(actionSplit[0])) {
+                for (ClientActionInterface clientAction : actionMap.get(actionSplit[0])) {
                     clientAction.execute(uiActivity, message);
                 }
             }

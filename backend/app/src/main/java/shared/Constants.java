@@ -1,4 +1,4 @@
-package backend.server;
+package shared;
 
 public class Constants {
 

@@ -1,6 +1,6 @@
-package backend.server;
+package backend.network;
 
-import static backend.server.Constants.LOG_NETWORK;
+import static shared.Constants.LOG_NETWORK;
 
 import android.util.Log;
 
@@ -12,6 +12,10 @@ import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayDeque;
+
+import backend.client.ResponseLogic;
+import shared.Config;
+import shared.Constants;
 
 
 public class NetworkConnection extends Thread {
@@ -40,10 +44,10 @@ public class NetworkConnection extends Thread {
 
     private boolean isServerConnection;
 
-    private ClientLogic logic;
+    private ResponseLogic logic;
 
 
-    public NetworkConnection(String ip, int port, int timeout, ClientLogic logic) {
+    public NetworkConnection(String ip, int port, int timeout, ResponseLogic logic) {
         this.isRunning = true;
         runningToken = "";
         outputBuffer = new ArrayDeque<>();
@@ -56,7 +60,7 @@ public class NetworkConnection extends Thread {
         this.logic = logic;
     }
 
-    public NetworkConnection(Socket socket, ClientLogic logic) {
+    public NetworkConnection(Socket socket, ResponseLogic logic) {
         this.isRunning = true;
         runningToken = "";
         outputBuffer = new ArrayDeque<>();
