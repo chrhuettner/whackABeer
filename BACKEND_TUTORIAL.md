@@ -17,7 +17,7 @@ The server receives messages and passes them to the matching ServerResponse clas
 
 When an AppcompatActivity gets started, it has to register itself to the ClientResponseHandler (or HostResponseHandler), so eventual calls to the response handlers are able to influence the UI. 
 
-Example: Ping
+#Example: Ping
 
 The server action handler searches for an implementation of ServerRequestInterface that got registered with the message type Constants.PING.
 
@@ -44,4 +44,12 @@ The reponse object then sends a message back to the server to complete the Ping.
 The server receives this message in the network connection class which passes the message to the reponse logic which passes the message to the host response object with matching message type (again, with retry capability for transitionary UI delays of the host).
 
 The host reponse object then displays a toast "Received ping from client".
+
+#How to add functionality
+* Add server request by creating a class that implements the ServerRequestInterface. This enables the class to send messages to clients.
+* Register the server request in the action map of the Server request handler (in the static brackets)
+* You can now call this server request with the static method: ServerRequestHandler.triggerAction([TYPE], [PARAMETER]);
+
+The above steps are similar for client responses and host responses. These responses can access the assigned AppCompatActivity to influence the UI.
+
 
