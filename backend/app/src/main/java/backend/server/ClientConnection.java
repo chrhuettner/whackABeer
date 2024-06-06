@@ -4,8 +4,8 @@ public class ClientConnection {
 
     private final NetworkConnection connection;
 
-    public ClientConnection(String ip, int port, int timeout) {
-        this.connection = new NetworkConnection(ip,  port, timeout);
+    public ClientConnection(String ip, int port, int timeout, ClientLogic logic) {
+        this.connection = new NetworkConnection(ip,  port, timeout, logic);
     }
 
     public void start(){

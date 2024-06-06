@@ -40,8 +40,10 @@ public class NetworkConnection extends Thread {
 
     private boolean isServerConnection;
 
+    private ClientLogic logic;
 
-    public NetworkConnection(String ip, int port, int timeout) {
+
+    public NetworkConnection(String ip, int port, int timeout, ClientLogic logic) {
         this.isRunning = true;
         runningToken = "";
         outputBuffer = new ArrayDeque<>();
@@ -51,9 +53,10 @@ public class NetworkConnection extends Thread {
         this.timeout = timeout;
         closeHasBeenRequested = false;
         closeRequestToken = "";
+        this.logic = logic;
     }
 
-    public NetworkConnection(Socket socket) {
+    public NetworkConnection(Socket socket, ClientLogic logic) {
         this.isRunning = true;
         runningToken = "";
         outputBuffer = new ArrayDeque<>();
@@ -61,6 +64,7 @@ public class NetworkConnection extends Thread {
         this.socket = socket;
         closeHasBeenRequested = false;
         closeRequestToken = "";
+        this.logic = logic;
     }
 
     @Override

@@ -98,7 +98,7 @@ public class ServerNetwork extends Thread {
                 }
 
                 Socket socket = serverSocket.accept();
-                NetworkConnection clientSocket = new NetworkConnection(socket);
+                NetworkConnection clientSocket = new NetworkConnection(socket, TestMain.logic);
                 clientSocket.setServerConnection(true);
                 clientConnections.put(Config.amountOfClients  + 1, clientSocket);
                 clientSocket.start();
