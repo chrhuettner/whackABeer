@@ -7,7 +7,8 @@ The host of a game owns the server which starts a network service finder in the 
 A client starts the network service discovery client along with the network service discovery listener.
 If a service gets found, the client may connect to the associated IP address. 
 
-Note that the first message the server then sends to the Client is of type IPINNIT which has no message type and a payload that is -1 if the server is full or the assigned clientId
+Note that the first message the server then sends to the Client is of type IPINNIT which has no message type and a payload that is -1 if the server is full or the assigned clientId.
+
 This interaction is hardcoded in the ServerNetwork and NetworkConnection class.
 
 The host can send messages via the server to other clients.
