@@ -7,11 +7,11 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class NsdDiscoveryListener implements NsdManager.DiscoveryListener{
+public class NetworkServiceDiscoveryListener implements NsdManager.DiscoveryListener{
     private final AppCompatActivity activity;
     private NsdManager manager;
 
-    public NsdDiscoveryListener(AppCompatActivity activity){
+    public NetworkServiceDiscoveryListener(AppCompatActivity activity){
         this.activity = activity;
     }
 

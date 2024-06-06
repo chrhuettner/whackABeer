@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import backend.client.ClientResponses.ActionPing;
 import backend.client.ClientResponses.ClientActionInterface;
+import backend.network.NetworkConnection;
 import shared.Constants;
 
 
@@ -22,22 +23,20 @@ public class ClientResponseHandler extends Handler {
     private AppCompatActivity uiActivity;
     private static final HashMap<String, ArrayList<ClientActionInterface>> actionMap = new HashMap<>();
 
-    private static ClientConnection client;
+    private static NetworkConnection client;
 
 
     static {
-
-
         ArrayList<ClientActionInterface> pingActions = new ArrayList<>();
         pingActions.add(new ActionPing());
         actionMap.put(Constants.PING, pingActions);
     }
 
-    public static void setClient(ClientConnection connection) {
+    public static void setClient(NetworkConnection connection) {
         client = connection;
     }
     public static void sendMessageToServer(String activity, String prefix, String args) {
-        client.sendMessage(activity + ":" + prefix + " " + args);
+        client.send(activity + ":" + prefix + " " + args);
     }
 
     public ClientResponseHandler(AppCompatActivity uiActivity) {

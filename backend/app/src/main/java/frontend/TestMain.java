@@ -11,13 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import backend.network.NetworkConnection;
 import shared.Config;
 import shared.Constants;
-import backend.client.ClientConnection;
 import backend.client.ClientResponseHandler;
 import backend.client.ResponseLogic;
 import backend.network.NetworkServiceDiscoveryClient;
-import backend.network.NsdDiscoveryListener;
+import backend.network.NetworkServiceDiscoveryListener;
 import backend.server.ServerActionHandler;
 import backend.server.ServerNetwork;
 
@@ -42,7 +42,7 @@ public class TestMain {
 
         NetworkServiceDiscoveryClient discoveryClient = new NetworkServiceDiscoveryClient(testActivity, SERVICE_TYPE);
 
-        NsdDiscoveryListener listener = new NsdDiscoveryListener(testActivity);
+        NetworkServiceDiscoveryListener listener = new NetworkServiceDiscoveryListener(testActivity);
 
         discoveryClient.startDiscovery(listener);
     }
@@ -62,7 +62,7 @@ public class TestMain {
         Toast.makeText(testActivity,"Found host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
-        ClientConnection client = new ClientConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
+        NetworkConnection client = new NetworkConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
         client.start();
         ClientResponseHandler.setClient(client);
     }
@@ -86,7 +86,7 @@ public class TestMain {
         server.start();
         Thread.sleep(100);
 
-        ClientConnection client = new ClientConnection("localhost", server.getPort(), 1000, logic);
+        NetworkConnection client = new NetworkConnection("localhost", server.getPort(), 1000, logic);
         ServerActionHandler.setServer(server);
         client.start();
         Log.i("analyze","Host is set as a client on this server");

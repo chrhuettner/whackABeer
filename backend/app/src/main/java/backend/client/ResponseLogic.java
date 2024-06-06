@@ -9,13 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.HashMap;
 
 public class ResponseLogic {
-
     private HashMap<String, ClientResponseHandler> handlers;
-
     private HashMap<String, HostResponseHandler> serverHandlers;
-
-    public static boolean isTEST;
-
     public ResponseLogic(HashMap<String, ClientResponseHandler> handlers, HashMap<String, HostResponseHandler> serverHandlers) {
 
         this.handlers = handlers;
@@ -23,9 +18,6 @@ public class ResponseLogic {
     }
 
     public void sendHandle(String message, String type, boolean isServer) {
-
-        if (!isTEST) {
-
             if(attemptSend(message,type, isServer)){
                 return;
             }
@@ -44,9 +36,6 @@ public class ResponseLogic {
                     Log.i("ERROR", "INVALID UI TYPE " + type);
                 }
             }
-
-
-        }
     }
 
     private boolean attemptSend(String message, String type, boolean isServer){
