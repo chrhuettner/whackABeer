@@ -6,8 +6,6 @@ import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,9 +25,9 @@ public class TestMain {
 
     public static ResponseLogic logic = new ResponseLogic(new HashMap<>(), new HashMap<>());
 
-    public static AppCompatActivity testActivity;
+    public static TestActivity testActivity;
 
-    public static void main() {
+    public static void main(TestActivity testActivity) {
 
         TestMain.testActivity = testActivity;
         Log.i("analyze","registerActivity");
