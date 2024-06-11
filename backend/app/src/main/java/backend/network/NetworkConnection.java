@@ -85,6 +85,7 @@ public class NetworkConnection extends Thread {
                 String clientID = reader.readLine();
                 Log.i(Constants.LOG_MAIN, clientID);
                 Config.clientID = Integer.parseInt(clientID.split(":")[1]);
+                Log.i(LOG_NETWORK, "I RECEIVED MY ID FROM SERVER "+Config.clientID);
                 this.clientId = Config.clientID;
 
                 if (Config.clientID == -1) {

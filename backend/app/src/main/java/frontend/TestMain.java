@@ -1,5 +1,6 @@
 package frontend;
 
+import static backend.network.NetworkServiceFinder.SERVICE_NAME;
 import static backend.network.NetworkServiceFinder.SERVICE_TYPE;
 
 import android.content.Intent;
@@ -21,6 +22,7 @@ import backend.client.ResponseLogic;
 import backend.network.NetworkConnection;
 import backend.network.NetworkServiceDiscoveryClient;
 import backend.network.NetworkServiceDiscoveryListener;
+import backend.network.NetworkServiceFinder;
 import backend.server.ServerNetwork;
 import backend.server.ServerRequestHandler;
 import frontend.TestActivity;
@@ -42,7 +44,7 @@ public class TestMain {
         isConnected = false;
 
         TestMain.testActivity = testActivity;
-        Log.i("analyze","registerActivity");
+        Log.i("analyze", "registerActivity");
         logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, testActivity);
 
         Button hostButton = testActivity.findViewById(R.id.host_Button);
@@ -68,11 +70,11 @@ public class TestMain {
         });
 
         pingButton.setOnClickListener(view -> {
-           if(Config.role == Config.ROLE.SERVER){
-               for(int i = 1; i<=Config.amountOfClients;i++){
-                   ServerRequestHandler.triggerAction(Constants.PING, i);
-               }
-           }
+            if (Config.role == Config.ROLE.SERVER) {
+                for (int i = 1; i <= Config.amountOfClients; i++) {
+                    ServerRequestHandler.triggerAction(Constants.PING, i);
+                }
+            }
         });
 
 
@@ -82,10 +84,12 @@ public class TestMain {
         hosts.add(host);
         Log.d(Constants.LOG_MAIN, "Found host " + host.getHost());
 
-        Toast.makeText(testActivity,"Found host " + host.getHost(),
+        Toast.makeText(testActivity, "Found host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
-        if(!isConnected) {
+        if (host.getServiceType().equals("."+SERVICE_TYPE) && host.getServiceName().equals(SERVICE_NAME) && !isConnected) {
+            Log.d(Constants.LOG_MAIN, "Connecting to host " + host.getHost());
+
             NetworkConnection client = new NetworkConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
             client.start();
             ClientResponseHandler.setClient(client);
@@ -96,7 +100,7 @@ public class TestMain {
     public static void removeHost(NsdServiceInfo host) {
         hosts.remove(host);
 
-        Toast.makeText(testActivity,"Lost host " + host.getHost(),
+        Toast.makeText(testActivity, "Lost host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
         Log.d(Constants.LOG_MAIN, "Lost host " + host.getHost());
@@ -104,7 +108,7 @@ public class TestMain {
     }
 
     public static void startServer() throws InterruptedException {
-        Log.i("analyze","Starting the server");
+        Log.i("analyze", "Starting the server");
 
         Config.role = Config.ROLE.SERVER;
         logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, testActivity);
@@ -119,7 +123,7 @@ public class TestMain {
 
         ClientResponseHandler.setClient(client);
 
-        Toast.makeText(testActivity,"Server started ",
+        Toast.makeText(testActivity, "Server started ",
                 Toast.LENGTH_SHORT).show();
 
         //Toast.makeText(MainMenuActivity.this, "Server " + serverName + " started on " + currentTime, Toast.LENGTH_SHORT).show();

@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class NetworkServiceFinder {
 
-    private static final String SERVICE_NAME = "_WHACK-BEER";
+    public static final String SERVICE_NAME = "_WHACK-BEER";
 
     private static final String SERVICE_PROTOCOL ="_tcp";
     public static final String SERVICE_TYPE = SERVICE_NAME+"."+ SERVICE_PROTOCOL;

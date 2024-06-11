@@ -108,17 +108,18 @@ public class ServerNetwork extends Thread {
                 clientConnections.put(Config.amountOfClients  + 1, clientSocket);
                 clientSocket.start();
 
+                if(Config.amountOfClients != 0) {
+
+                    if (Config.amountOfClients >= Config.MAX_CLIENTS) {
+                        //Refuse Client
+                        clientSocket.send("IPINNIT:-1");
+                        continue;
+                    }
 
 
-                if (Config.amountOfClients >= Config.MAX_CLIENTS) {
-                    //Refuse Client
-                    clientSocket.send("IPINNIT:-1");
-                    continue;
+                    int clientID = Config.amountOfClients + 1;
+                    clientSocket.send("IPINNIT:" + clientID);
                 }
-
-
-                int clientID = Config.amountOfClients  + 1;
-                clientSocket.send("IPINNIT:" + clientID);
                 Config.amountOfClients++;
                //TODO: Create a player object and add it to a game logic
 
