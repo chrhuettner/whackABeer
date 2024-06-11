@@ -36,7 +36,10 @@ public class TestMain {
 
     public static TestActivity testActivity;
 
+    public static boolean isConnected = false;
+
     public static void main(TestActivity testActivity) {
+        isConnected = false;
 
         TestMain.testActivity = testActivity;
         Log.i("analyze","registerActivity");
@@ -82,9 +85,12 @@ public class TestMain {
         Toast.makeText(testActivity,"Found host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
-        NetworkConnection client = new NetworkConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
-        client.start();
-        ClientResponseHandler.setClient(client);
+        if(!isConnected) {
+            NetworkConnection client = new NetworkConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
+            client.start();
+            ClientResponseHandler.setClient(client);
+            isConnected = true;
+        }
     }
 
     public static void removeHost(NsdServiceInfo host) {
