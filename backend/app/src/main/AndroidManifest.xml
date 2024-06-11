@@ -4,7 +4,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:icon="@drawable/puntilogo"
         android:label="whackABeer"
+        android:roundIcon="@drawable/puntilogo_rund"
         android:supportsRtl="true"
         tools:targetApi="31">
 
