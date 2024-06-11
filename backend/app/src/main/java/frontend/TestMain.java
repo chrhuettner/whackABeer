@@ -2,23 +2,30 @@ package frontend;
 
 import static backend.network.NetworkServiceFinder.SERVICE_TYPE;
 
+import android.content.Intent;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import backend.network.NetworkConnection;
-import shared.Config;
-import shared.Constants;
 import backend.client.ClientResponseHandler;
 import backend.client.ResponseLogic;
+import backend.network.NetworkConnection;
 import backend.network.NetworkServiceDiscoveryClient;
 import backend.network.NetworkServiceDiscoveryListener;
-import backend.server.ServerRequestHandler;
 import backend.server.ServerNetwork;
+import backend.server.ServerRequestHandler;
+import frontend.TestActivity;
+import shared.Config;
+import shared.Constants;
 import whack.beer.R;
 
 public class TestMain {
@@ -32,7 +39,7 @@ public class TestMain {
     public static void main(TestActivity testActivity) {
 
         TestMain.testActivity = testActivity;
-        Log.i("analyze", "registerActivity");
+        Log.i("analyze","registerActivity");
         logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, testActivity);
 
         Button hostButton = testActivity.findViewById(R.id.host_Button);
@@ -48,38 +55,31 @@ public class TestMain {
         });
 
         joinButton.setOnClickListener(view -> {
-            discoverServer();
+            Config.role = Config.ROLE.CLIENT;
+
+            NetworkServiceDiscoveryClient discoveryClient = new NetworkServiceDiscoveryClient(testActivity, SERVICE_TYPE);
+
+            NetworkServiceDiscoveryListener listener = new NetworkServiceDiscoveryListener(testActivity);
+
+            discoveryClient.startDiscovery(listener);
         });
 
         pingButton.setOnClickListener(view -> {
-            pingAllClients();
+           if(Config.role == Config.ROLE.SERVER){
+               for(int i = 1; i<=Config.amountOfClients;i++){
+                   ServerRequestHandler.triggerAction(Constants.PING, i);
+               }
+           }
         });
 
-    }
 
-    public static void discoverServer() {
-        Config.role = Config.ROLE.CLIENT;
-
-        NetworkServiceDiscoveryClient discoveryClient = new NetworkServiceDiscoveryClient(testActivity, SERVICE_TYPE);
-
-        NetworkServiceDiscoveryListener listener = new NetworkServiceDiscoveryListener(testActivity);
-
-        discoveryClient.startDiscovery(listener);
-    }
-
-    public static void pingAllClients() {
-        if (Config.role == Config.ROLE.SERVER) {
-            for (int i = 1; i <= Config.amountOfClients; i++) {
-                ServerRequestHandler.triggerAction(Constants.PING, i);
-            }
-        }
     }
 
     public static void addHost(NsdServiceInfo host) {
         hosts.add(host);
         Log.d(Constants.LOG_MAIN, "Found host " + host.getHost());
 
-        Toast.makeText(testActivity, "Found host " + host.getHost(),
+        Toast.makeText(testActivity,"Found host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
         NetworkConnection client = new NetworkConnection(host.getHost().getHostAddress(), host.getPort(), 1000, logic);
@@ -90,7 +90,7 @@ public class TestMain {
     public static void removeHost(NsdServiceInfo host) {
         hosts.remove(host);
 
-        Toast.makeText(testActivity, "Lost host " + host.getHost(),
+        Toast.makeText(testActivity,"Lost host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
 
         Log.d(Constants.LOG_MAIN, "Lost host " + host.getHost());
@@ -98,7 +98,7 @@ public class TestMain {
     }
 
     public static void startServer() throws InterruptedException {
-        Log.i("analyze", "Starting the server");
+        Log.i("analyze","Starting the server");
 
         Config.role = Config.ROLE.SERVER;
         logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, testActivity);
@@ -113,10 +113,14 @@ public class TestMain {
 
         ClientResponseHandler.setClient(client);
 
-        Toast.makeText(testActivity, "Server started ",
+        Toast.makeText(testActivity,"Server started ",
                 Toast.LENGTH_SHORT).show();
 
+        //Toast.makeText(MainMenuActivity.this, "Server " + serverName + " started on " + currentTime, Toast.LENGTH_SHORT).show();
+
         Thread.sleep(100);
+
     }
+
 
 }
