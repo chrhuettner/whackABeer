@@ -66,7 +66,7 @@ public class TestActivity extends AppCompatActivity {
 
         public void onCloseClicked(View view) {
         finish();
-    }
+        }
 
 
 }

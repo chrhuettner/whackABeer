@@ -30,6 +30,11 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
+        <activity
+            android:name="frontend.SinglePlayerActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
 
     </application>
 
