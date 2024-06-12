@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import frontend.TestMain;
 import whack.beer.R;
+import whack.beer.databinding.TestactivityLayoutBinding;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -26,6 +27,8 @@ public class TestActivity extends AppCompatActivity {
         private static final String SERVICE_NAME = "_delta-dkt";
         private static final String SERVICE_PROTOCOLL ="_tcp";
         private static final String SERVICE_TYPE = SERVICE_NAME+"."+SERVICE_PROTOCOLL;
+
+        private TestactivityLayoutBinding binding;
 
 
         public void setSelectedHost(int hostId) {

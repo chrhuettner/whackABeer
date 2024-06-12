@@ -1,18 +1,43 @@
 package frontend;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+
+import backend.client.ClientResponseHandler;
+import backend.client.ResponseLogic;
+import backend.network.NetworkConnection;
+import backend.server.ServerNetwork;
+import backend.server.ServerRequestHandler;
+import shared.Config;
+import shared.Constants;
 import whack.beer.R;
+import whack.beer.databinding.GameLayoutBinding;
+import whack.beer.databinding.SinglePlayerLayoutBinding;
 
 public class SinglePlayerActivity extends AppCompatActivity {
+
+    public static ResponseLogic logic = new ResponseLogic(new HashMap<>(), new HashMap<>());
+    private SinglePlayerLayoutBinding binding;
+    public static boolean isConnected = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.single_player_layout);
+
+        binding = SinglePlayerLayoutBinding.inflate(getLayoutInflater());
+        View viewBinder = binding.getRoot();
+        setContentView(viewBinder);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -25,6 +50,50 @@ public class SinglePlayerActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
+
+        isConnected = false;
+
+        logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, this);
+
+        Button playButton = binding.playButton;
+        TextView playerName = binding.playerName;
+
+
+        playButton.setOnClickListener(view -> {
+            try {
+                startServer();
+                Intent intent = new Intent(this, GameActivity.class);
+                startActivity(intent);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
+
+    public void startServer() throws InterruptedException {
+        Log.i("analyze", "Starting the server");
+
+        Config.role = Config.ROLE.SERVER;
+        logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, this);
+        ServerNetwork server = new ServerNetwork(this.getApplicationContext());
+        server.start();
+        Thread.sleep(100);
+
+        NetworkConnection client = new NetworkConnection("localhost", server.getPort(), 1000, logic);
+        ServerRequestHandler.setServer(server);
+        client.start();
+        Log.i("analyze", "Host is set as a client on this server");
+
+        ClientResponseHandler.setClient(client);
+
+        Toast.makeText(this, "Server started ",
+                Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(MainMenuActivity.this, "Server " + serverName + " started on " + currentTime, Toast.LENGTH_SHORT).show();
+
+        Thread.sleep(100);
+
     }
 
     public void onCloseClicked(View view) {

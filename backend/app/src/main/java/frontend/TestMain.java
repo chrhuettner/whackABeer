@@ -3,16 +3,10 @@ package frontend;
 import static backend.network.NetworkServiceFinder.SERVICE_NAME;
 import static backend.network.NetworkServiceFinder.SERVICE_TYPE;
 
-import android.content.Intent;
 import android.net.nsd.NsdServiceInfo;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +16,8 @@ import backend.client.ResponseLogic;
 import backend.network.NetworkConnection;
 import backend.network.NetworkServiceDiscoveryClient;
 import backend.network.NetworkServiceDiscoveryListener;
-import backend.network.NetworkServiceFinder;
 import backend.server.ServerNetwork;
 import backend.server.ServerRequestHandler;
-import frontend.TestActivity;
 import shared.Config;
 import shared.Constants;
 import whack.beer.R;
@@ -86,6 +78,9 @@ public class TestMain {
 
         Toast.makeText(testActivity, "Found host " + host.getHost(),
                 Toast.LENGTH_SHORT).show();
+
+        // TODO: Display new Host in TableLayout if client is not the host
+        // TODO: Display new Activity if client is the host
 
         if (host.getServiceType().equals("."+SERVICE_TYPE) && host.getServiceName().equals(SERVICE_NAME) && !isConnected) {
             Log.d(Constants.LOG_MAIN, "Connecting to host " + host.getHost());

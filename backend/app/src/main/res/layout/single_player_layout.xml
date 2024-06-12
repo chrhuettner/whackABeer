@@ -47,7 +47,7 @@
                 android:textSize="32sp" />
 
             <EditText
-                android:id="@+id/lobby_name"
+                android:id="@+id/player_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="12dp"
@@ -58,7 +58,7 @@
                 android:textColorHint="@color/gray_500" />
 
             <Button
-                android:id="@+id/host_Button"
+                android:id="@+id/play_Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
