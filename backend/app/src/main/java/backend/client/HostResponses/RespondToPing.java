@@ -16,7 +16,8 @@ public class RespondToPing implements ServerResponseInterface {
         String[] parameters = clientMessage.split(" ")[1].split(";");
         int id = Integer.parseInt(parameters[0]);
 
-        Log.i(Constants.LOG_MAIN, "RECEIVED PING " + clientMessage);
+        Log.i(Constants.LOG_MAIN, "RECEIVED PING " + clientMessage + "FROM activity = " + activity);
+
         Toast.makeText(activity, "Received Ping from Client with id " + id,
                 Toast.LENGTH_SHORT).show();
 

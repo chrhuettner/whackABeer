@@ -4,6 +4,7 @@ package shared;
 public class Config {
 
     public static int clientID = -1;
+    public static String clientName = "";
     public static int amountOfClients = 0;
 
     public static enum ROLE {CLIENT, SERVER};

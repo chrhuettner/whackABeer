@@ -31,6 +31,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     public static ResponseLogic logic = new ResponseLogic(new HashMap<>(), new HashMap<>());
     private SinglePlayerLayoutBinding binding;
     public static boolean isConnected = false;
+    public static GameActivity gameActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +76,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         Log.i("analyze", "Starting the server");
 
         Config.role = Config.ROLE.SERVER;
-        logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, this);
+        logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, gameActivity);
         ServerNetwork server = new ServerNetwork(this.getApplicationContext());
         server.start();
         Thread.sleep(100);

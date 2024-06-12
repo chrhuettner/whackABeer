@@ -15,7 +15,7 @@ public class RespondToPing implements ClientResponseInterface {
     public void execute(AppCompatActivity activity, String clientMessage) {
         String parameter = clientMessage.split(" ")[1];
         int id = Integer.parseInt(parameter);
-        Log.i("PING", "RECEIVED " + clientMessage);
+        Log.i("PING", "RECEIVED " + clientMessage + " FROM activity = " + activity);
 
         //No need to respond to the ping if this client is the host and therefore is the server
         if(Config.clientID != 1) {

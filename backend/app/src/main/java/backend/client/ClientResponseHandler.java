@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import backend.client.ClientResponses.RespondToGameStart;
 import backend.client.ClientResponses.RespondToPing;
 import backend.client.ClientResponses.ClientResponseInterface;
 import backend.network.NetworkConnection;
@@ -31,6 +32,10 @@ public class ClientResponseHandler extends Handler {
         ArrayList<ClientResponseInterface> pingActions = new ArrayList<>();
         pingActions.add(new RespondToPing());
         actionMap.put(Constants.PING, pingActions);
+
+        ArrayList<ClientResponseInterface> gameStartActions = new ArrayList<>();
+        gameStartActions.add(new RespondToGameStart());
+        actionMap.put(Constants.GAME_START, gameStartActions);
     }
 
     public static void setClient(NetworkConnection connection) {
