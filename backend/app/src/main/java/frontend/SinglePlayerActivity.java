@@ -32,6 +32,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private SinglePlayerLayoutBinding binding;
     public static boolean isConnected = false;
     public static GameActivity gameActivity;
+
+    private NetworkConnection client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
     public void onCloseClicked(View view) {
+        client.close();
         finish();
     }
 
