@@ -100,7 +100,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
     public void onCloseClicked(View view) {
-        client.close();
         finish();
     }
 
