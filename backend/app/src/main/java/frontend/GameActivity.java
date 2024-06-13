@@ -44,7 +44,7 @@ public class GameActivity extends AppCompatActivity {
 
         ServerRequestHandler.triggerAction(Constants.GAME_START, "P");
 
-        binding.button3.setOnClickListener(view -> {
+        binding.beer1.setOnClickListener(view -> {
             if (Config.role == Config.ROLE.SERVER) {
                 for (int i = 1; i <= Config.amountOfClients; i++) {
                     ServerRequestHandler.triggerAction(Constants.PING, i);
@@ -54,4 +54,13 @@ public class GameActivity extends AppCompatActivity {
         });
 
     }
+
+    public void onCloseClicked(View view) {
+        finish();
+    }
+
+    public void onBeerClick(View view) {
+
+    }
+
 }

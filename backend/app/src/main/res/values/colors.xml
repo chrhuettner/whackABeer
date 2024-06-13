@@ -90,4 +90,5 @@
     <color name="cyan_700">#FF0097A7</color>
     <color name="cyan_800">#FF00838F</color>
     <color name="cyan_900">#FF006064</color>
+    <color name="transparent">#00000000</color>
 </resources>
