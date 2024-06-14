@@ -65,14 +65,14 @@ public class GameActivity extends AppCompatActivity {
         if(preActivity.equals("SinglePlayer")) {
             frontend.SinglePlayerActivity.logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, this);
 
-            ServerRequestHandler.triggerAction(Constants.CONFIG, Constants.SERVER_NAME);
+
 
 
         } else {
             frontend.TestMain.logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, this);
 
             // Only display server name in multiplayer mode
-
+            ServerRequestHandler.triggerAction(Constants.CONFIG, Constants.SERVER_NAME);
         }
 
         ServerRequestHandler.triggerAction(Constants.CONFIG, playerName+":"+Constants.PLAYER_NAME);

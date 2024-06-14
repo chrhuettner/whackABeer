@@ -66,20 +66,20 @@ public class ServerRequestHandler {
         
     }
 
-    private static void startRandomBeerSelection() {
+    public static void startRandomBeerSelection() {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 selectRandomBeer();
             }
-        }, 0, (5 + random.nextInt(6)) * 1000);
+        }, 5000, (random.nextInt(6)) * 1000);
     }
 
     private static void selectRandomBeer() {
         int beerNumber = 1 + random.nextInt(12);
         currentBeer = "beer" + beerNumber;
         Log.i("Game", "Selected beer: " + currentBeer);
-        server.broadcast(Constants.MAIN_ACTIVITY_TYPE, "NEW_BEER", new String[]{currentBeer});
+        server.broadcast(Constants.MAIN_ACTIVITY_TYPE, Constants.NEW_BEER, new String[]{currentBeer});
     }
 
     public static String getCurrentBeer() {
