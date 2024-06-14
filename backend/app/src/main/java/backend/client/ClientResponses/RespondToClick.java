@@ -2,6 +2,7 @@ package backend.client.ClientResponses;
 
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +19,14 @@ public class RespondToClick implements ClientResponseInterface {
         String message = params[2];
         Log.i("Comm","RECEIVED "+beer +" " +message);
 
+        TextView gotPoint = activity.findViewById(R.id.gotPoint);
+        gotPoint.setText(message);
         if(!message.equals("SUCCESS!!!")){
-            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+            int red = ContextCompat.getColor(activity, R.color.red_600);
+            gotPoint.setBackgroundColor(red);
         } else {
+            int green = ContextCompat.getColor(activity, R.color.green_600);
+            gotPoint.setBackgroundColor(green);
             ImageButton imageButton1 = activity.findViewById(R.id.beer1);
             ImageButton imageButton2 = activity.findViewById(R.id.beer2);
             ImageButton imageButton3 = activity.findViewById(R.id.beer3);

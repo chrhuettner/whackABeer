@@ -69,6 +69,8 @@
         android:id="@+id/closeButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:onClick="onCloseClicked"
         android:src="?attr/homeAsUpIndicator"
         android:background="@drawable/button_rounded_shape"

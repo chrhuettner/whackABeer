@@ -46,9 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Click on the beer can when it appears"
+            android:text=""
             android:textColor="@color/punti_blau"
-            android:textSize="15sp"
+            android:textSize="24sp"
             android:gravity="center" />
     </LinearLayout>
     <LinearLayout
@@ -63,8 +63,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="Success!!!"
-            android:textColor="@color/punti_blau"
+            android:text="Game starts soon..."
+            android:background="@drawable/button_rounded_shape"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:gravity="center" />
     </LinearLayout>
