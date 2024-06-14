@@ -5,8 +5,14 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import backend.server.ServerRequests.RequestBeer;
+import backend.server.ServerRequests.RequestConfig;
 import backend.server.ServerRequests.RequestGameStart;
+import shared.Config;
 import shared.Constants;
 import backend.server.ServerRequests.RequestPing;
 import backend.server.ServerRequests.ServerRequestInterface;
@@ -16,6 +22,9 @@ public class ServerRequestHandler {
     public static final HashMap<String, ArrayList<ServerRequestInterface>> actionMap = new HashMap<>();
 
     private static ServerNetwork server;
+    private static Timer timer = new Timer();
+    private static Random random = new Random();
+    private static String currentBeer;
 
 
     private ServerRequestHandler() {
@@ -30,6 +39,14 @@ public class ServerRequestHandler {
         ArrayList<ServerRequestInterface> gameStartActions = new ArrayList<>();
         gameStartActions.add(new RequestGameStart());
         actionMap.put(Constants.GAME_START, gameStartActions);
+
+        ArrayList<ServerRequestInterface> beerActions = new ArrayList<>();
+        beerActions.add(new RequestBeer());
+        actionMap.put(Constants.CLICKED_BEER, beerActions);
+
+        ArrayList<ServerRequestInterface> configActions = new ArrayList<>();
+        configActions.add(new RequestConfig());
+        actionMap.put(Constants.CONFIG, configActions);
     }
 
     public static void triggerAction(String name, Object parameters) {
@@ -47,6 +64,26 @@ public class ServerRequestHandler {
         }
         Log.e(Constants.LOG_ERROR, name + " not found in action map!");
         
+    }
+
+    private static void startRandomBeerSelection() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                selectRandomBeer();
+            }
+        }, 0, (5 + random.nextInt(6)) * 1000);
+    }
+
+    private static void selectRandomBeer() {
+        int beerNumber = 1 + random.nextInt(12);
+        currentBeer = "beer" + beerNumber;
+        Log.i("Game", "Selected beer: " + currentBeer);
+        server.broadcast(Constants.MAIN_ACTIVITY_TYPE, "NEW_BEER", new String[]{currentBeer});
+    }
+
+    public static String getCurrentBeer() {
+        return currentBeer;
     }
 
     public static void setServer(ServerNetwork server) {

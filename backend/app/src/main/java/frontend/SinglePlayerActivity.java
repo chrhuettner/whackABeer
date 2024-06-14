@@ -66,6 +66,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
             try {
                 startServer();
                 Intent intent = new Intent(this, GameActivity.class);
+                intent.putExtra("playerName", playerName.getText().toString());
+                intent.putExtra("preActivity", "SinglePlayer");
                 startActivity(intent);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
