@@ -125,8 +125,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void callToServer(String beer) {
-        Toast.makeText(this, beer + " clicked", Toast.LENGTH_SHORT).show();
-        // Getting clientId via client object (needs to be public then) (for one user it is 0)
+        // Getting clientId via client object (needs to be public then)
         ServerRequestHandler.triggerAction(Constants.CLICKED_BEER, client.getClientId()+ ":"+beer);
     }
 

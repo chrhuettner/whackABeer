@@ -26,6 +26,7 @@ public class ServerRequestHandler {
     private static Random random = new Random();
     private static String currentBeer;
 
+    private static boolean beer_crushable;
 
     private ServerRequestHandler() {
         // no instantiation of class
@@ -72,18 +73,27 @@ public class ServerRequestHandler {
             public void run() {
                 selectRandomBeer();
             }
-        }, 5000, (random.nextInt(6)) * 1000);
+        }, 5000, ((1 + random.nextInt(5)) * 1000));
     }
 
     private static void selectRandomBeer() {
         int beerNumber = 1 + random.nextInt(12);
         currentBeer = "beer" + beerNumber;
         Log.i("Game", "Selected beer: " + currentBeer);
+        beer_crushable = true;
         server.broadcast(Constants.MAIN_ACTIVITY_TYPE, Constants.NEW_BEER, new String[]{currentBeer});
     }
 
     public static String getCurrentBeer() {
         return currentBeer;
+    }
+
+    public static boolean isBeer_crushable() {
+        return beer_crushable;
+    }
+
+    public static void setBeer_crushable(boolean beer_crushable) {
+        ServerRequestHandler.beer_crushable = beer_crushable;
     }
 
     public static void setServer(ServerNetwork server) {

@@ -86,8 +86,4 @@ public class RespondToBeer implements ClientResponseInterface {
         Log.i("BEER_CLICK", "RECEIVED " + clientMessage + " FROM activity = " + activity);
     }
 
-    private void resetBeers(){
-
-    }
-
 }
