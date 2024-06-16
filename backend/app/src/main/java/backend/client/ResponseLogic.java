@@ -40,7 +40,7 @@ public class ResponseLogic {
 
     private boolean attemptSend(String message, String type, boolean isServer){
         synchronized (handlers) {
-            if (handlers.containsKey(type)) {
+            if (handlers.containsKey(type) || serverHandlers.containsKey(type)) {
                 send(message, type, isServer);
                 return true;
             }

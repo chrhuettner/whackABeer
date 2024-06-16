@@ -12,7 +12,7 @@ public class RequestGameStart implements ServerRequestInterface {
     public void execute(ServerNetwork server, Object parameters) {
         Log.i("Comm", "Sending to Client with " + Constants.GAME_START);
         startRandomBeerSelection();
-        server.sendToClient(1, Constants.MAIN_ACTIVITY_TYPE, Constants.GAME_START, new String[]{""+parameters});
+        server.broadcast(Constants.MAIN_ACTIVITY_TYPE, Constants.GAME_START, new String[]{""+parameters});
     }
 
 }

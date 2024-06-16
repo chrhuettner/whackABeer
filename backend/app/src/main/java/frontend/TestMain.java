@@ -107,7 +107,7 @@ public class TestMain {
 
         Config.role = Config.ROLE.SERVER;
         logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, testActivity);
-        ServerNetwork server = new ServerNetwork(testActivity.getApplicationContext());
+        ServerNetwork server = new ServerNetwork(testActivity.getApplicationContext(), logic);
         server.start();
         Thread.sleep(100);
 

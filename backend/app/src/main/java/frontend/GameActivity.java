@@ -51,38 +51,30 @@ public class GameActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
 
-
-
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         String playerName = (String) bundle.get("playerName");
         binding.descriptionForGame.setText(playerName);
 
-
-//        logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, this);
         String preActivity = (String) bundle.get("preActivity");
         if(preActivity.equals("SinglePlayer")) {
+            frontend.SinglePlayerActivity.logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, this);
             frontend.SinglePlayerActivity.logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, this);
-
-
-
-
         } else {
+            frontend.TestMain.logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, this);
             frontend.TestMain.logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, this);
 
             // Only display server name in multiplayer mode
-            ServerRequestHandler.triggerAction(Constants.CONFIG, Constants.SERVER_NAME);
+            ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, Constants.SERVER_NAME);
         }
 
-        ServerRequestHandler.triggerAction(Constants.CONFIG, playerName+":"+Constants.PLAYER_NAME);
+        // Initialize Player Name
+        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, playerName+";"+Constants.PLAYER_NAME);
 
-
-
-
-        ServerRequestHandler.triggerAction(Constants.GAME_START, "P");
-
-
+        // Only the host starts the game
+        if(Config.role == Config.ROLE.SERVER) {
+            ServerRequestHandler.triggerAction(Constants.GAME_START, "P");
+        }
     }
 
     public void onCloseClicked(View view) {
@@ -121,13 +113,7 @@ public class GameActivity extends AppCompatActivity {
             Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
             return;
         }
-        callToServer(beerName);
+        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID+ ";"+beerName);
     }
-
-    public void callToServer(String beer) {
-        // Getting clientId via client object (needs to be public then)
-        ServerRequestHandler.triggerAction(Constants.CLICKED_BEER, client.getClientId()+ ":"+beer);
-    }
-
 
 }

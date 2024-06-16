@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import backend.client.ClientResponses.ClientResponseInterface;
+import backend.client.HostResponses.RespondToClick;
+import backend.client.HostResponses.RespondToConfig;
 import shared.Constants;
 import backend.client.HostResponses.RespondToPing;
 import backend.client.HostResponses.ServerResponseInterface;
@@ -27,6 +30,14 @@ public class HostResponseHandler extends Handler {
         ArrayList<ServerResponseInterface> pingActions = new ArrayList<>();
         pingActions.add(new RespondToPing());
         actionMap.put(Constants.PING, pingActions);
+
+        ArrayList<ServerResponseInterface> configActions = new ArrayList<>();
+        configActions.add(new RespondToConfig());
+        actionMap.put(Constants.CONFIG, configActions);
+
+        ArrayList<ServerResponseInterface> clickActions = new ArrayList<>();
+        clickActions.add(new RespondToClick());
+        actionMap.put(Constants.CLICKED_BEER, clickActions);
     }
 
     public HostResponseHandler(AppCompatActivity uiActivity) {

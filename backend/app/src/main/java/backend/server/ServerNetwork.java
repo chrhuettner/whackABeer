@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import backend.client.ResponseLogic;
 import shared.Config;
 import backend.network.NetworkConnection;
 import backend.network.NetworkServiceFinder;
@@ -36,13 +37,16 @@ public class ServerNetwork extends Thread {
 
     private Object syncTearDownToken;
 
+    private ResponseLogic logic;
+
 
     public ServerNetwork() {
         initProperties();
     }
 
-    public ServerNetwork(Context context) {
+    public ServerNetwork(Context context, ResponseLogic logic) {
         this.nsd = new NetworkServiceFinder(context);
+        this.logic = logic;
 
         initProperties();
     }
@@ -103,7 +107,7 @@ public class ServerNetwork extends Thread {
                 }
 
                 Socket socket = serverSocket.accept();
-                NetworkConnection clientSocket = new NetworkConnection(socket, TestMain.logic);
+                NetworkConnection clientSocket = new NetworkConnection(socket, logic);
                 clientSocket.setServerConnection(true);
                 clientConnections.put(Config.amountOfClients  + 1, clientSocket);
                 clientSocket.start();

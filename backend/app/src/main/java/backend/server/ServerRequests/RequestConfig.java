@@ -9,19 +9,23 @@ import shared.Constants;
 public class RequestConfig implements ServerRequestInterface {
     @Override
     public void execute(ServerNetwork server, Object parameters) {
-        if(!parameters.toString().contains(":")){
+        Log.d("Comm", "Server handling the config " + parameters);
+        String[] params = parameters.toString().split("/");
+        int clientID = Integer.parseInt(params[0]);
+        if(!parameters.toString().contains(";")){
             // Only Request ServerName up to now
-            server.sendToClient(Config.clientID, Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, new String[]{Config.SERVER_NAME+" "+Constants.SERVER_NAME});
+            server.sendToClient(clientID,Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, new String[]{Config.SERVER_NAME+" "+Constants.SERVER_NAME});
         }
         else {
             try {
-                String[] params = parameters.toString().split(":");
-                String newText = params[0];
-                String specifiedParam = params[1];
+                String[] textParams = params[1].split(";");
+                String newText = textParams[0];
+                String specifiedParam = textParams[1];
                 switch (specifiedParam) {
                     case "playerName":
+                        Log.i("Comm", "playerName given " + newText + " " + specifiedParam);
                         Config.players.add(newText);
-                        server.sendToClient(Config.clientID, Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, new String[]{newText + " " + Constants.PLAYER_NAME});
+                        server.sendToClient(clientID, Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, new String[]{newText + " " + Constants.PLAYER_NAME});
                         break;
                     case Constants.SERVER_NAME:
                         Config.SERVER_NAME = newText;
@@ -33,7 +37,6 @@ public class RequestConfig implements ServerRequestInterface {
                         Log.e("Comm", "Parameter not specified (correctly)");
                         break;
                 }
-                Log.i("Comm", Config.PLAYER_NAME);
             } catch (Exception e) {
                 Log.e("Comm", "Not a String entered for player name, lobby name or password");
             }

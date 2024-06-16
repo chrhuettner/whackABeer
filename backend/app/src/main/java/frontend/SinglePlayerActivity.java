@@ -80,8 +80,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
         Log.i("analyze", "Starting the server");
 
         Config.role = Config.ROLE.SERVER;
-        logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, gameActivity);
-        ServerNetwork server = new ServerNetwork(this.getApplicationContext());
+        logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, this);
+        ServerNetwork server = new ServerNetwork(this.getApplicationContext(), logic);
         server.start();
         Thread.sleep(100);
 

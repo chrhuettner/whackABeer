@@ -14,6 +14,7 @@ public class RespondToConfig implements ClientResponseInterface{
 
     @Override
     public void execute(AppCompatActivity activity, String clientMessage) {
+        Log.i("Comm", "RECEIVED " + clientMessage + " FROM activity = " + activity);
         String[] params = clientMessage.split(" ");
         String newText = params[1];
         String specifiedParam = params[2];
@@ -27,6 +28,5 @@ public class RespondToConfig implements ClientResponseInterface{
         } else {
             Log.e("Comm","Parameter not specified (correctly)");
         }
-        Log.i("Client", "RECEIVED " + clientMessage + " FROM activity = " + activity);
     }
 }
