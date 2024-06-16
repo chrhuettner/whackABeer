@@ -3,13 +3,17 @@ package frontend;
 import static backend.client.ClientResponseHandler.client;
 import static frontend.SinglePlayerActivity.logic;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +31,9 @@ import whack.beer.R;
 import whack.beer.databinding.GameLayoutBinding;
 
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements ClickHandler {
     private GameLayoutBinding binding;
+    private int[] beerIDs = new int[12];
 
 
     @Override
@@ -75,44 +80,74 @@ public class GameActivity extends AppCompatActivity {
         if(Config.role == Config.ROLE.SERVER) {
             ServerRequestHandler.triggerAction(Constants.GAME_START, "P");
         }
+
+        beerIDs[0] = R.id.beer1;
+        beerIDs[1] = R.id.beer2;
+        beerIDs[2] = R.id.beer3;
+        beerIDs[3] = R.id.beer4;
+        beerIDs[4] = R.id.beer5;
+        beerIDs[5] = R.id.beer6;
+        beerIDs[6] = R.id.beer7;
+        beerIDs[7] = R.id.beer8;
+        beerIDs[8] = R.id.beer9;
+        beerIDs[9] = R.id.beer10;
+        beerIDs[10] = R.id.beer11;
+        beerIDs[11] = R.id.beer12;
+
+        for (int i = 0; i < beerIDs.length; i++) {
+            setupGestureDetector(beerIDs[i]);
+        }
+    }
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setupGestureDetector(int viewId) {
+        Log.i("Taps", ""+viewId);
+        ImageButton button = findViewById(viewId);
+        GestureListener listener = new GestureListener(button, this);
+        GestureDetector gestureDetector = new GestureDetector(this, listener);
+
+        button.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
     }
 
     public void onCloseClicked(View view) {
         finish();
     }
 
-    public void onBeerClick(View view) {
-        int id = view.getId();
+    private String getBeerNameById(int id) {
         String beerName = "";
 
-        if (id == R.id.beer1) {
-            beerName = "beer1";
-        } else if (id == R.id.beer2) {
-            beerName = "beer2";
-        } else if (id == R.id.beer3) {
-            beerName = "beer3";
-        } else if (id == R.id.beer4) {
-            beerName = "beer4";
-        } else if (id == R.id.beer5) {
-            beerName = "beer5";
-        } else if (id == R.id.beer6) {
-            beerName = "beer6";
-        } else if (id == R.id.beer7) {
-            beerName = "beer7";
-        } else if (id == R.id.beer8) {
-            beerName = "beer8";
-        } else if (id == R.id.beer9) {
-            beerName = "beer9";
-        } else if (id == R.id.beer10) {
-            beerName = "beer10";
-        } else if (id == R.id.beer11) {
-            beerName = "beer11";
-        } else if (id == R.id.beer12) {
-            beerName = "beer12";
-        } else {
-            Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
-            return;
+        for (int i = 0; i < beerIDs.length; i++) {
+            if(beerIDs[i] == id){
+                i++;
+                beerName = "beer"+i;
+                break;
+            }
         }
+        if(beerName.equals("")){
+            return null;
+        }
+        return beerName;
+    }
+    @Override
+    public void onBeerClick(View view) {
+        String beerName = getBeerNameById(view.getId());
+        if (beerName == null) {
+            Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
+        }
+
+        Log.d("Taps", "Single Tap for " + beerName);
+        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID + ";" + beerName);
+    }
+
+    @Override
+    public void onBeerDoubleClick(View view) {
+        String beerName = getBeerNameById(view.getId());
+        if(beerName == null) {
+            Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
+        }
+
+        Log.d("Taps","Double Tap for " + beerName);
         ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID+ ";"+beerName);
     }
 
