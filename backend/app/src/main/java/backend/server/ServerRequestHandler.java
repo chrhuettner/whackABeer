@@ -25,6 +25,7 @@ public class ServerRequestHandler {
     private static Timer timer = new Timer();
     private static Random random = new Random();
     private static String currentBeer;
+    private static boolean gameStart = true;
 
     private static boolean beer_crushable;
 
@@ -68,12 +69,29 @@ public class ServerRequestHandler {
     }
 
     public static void startRandomBeerSelection() {
+        scheduleNextBeerSelection();
+    }
+
+    private static void scheduleNextBeerSelection() {
+        int delay = getRandomTime();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 selectRandomBeer();
+                scheduleNextBeerSelection();
             }
-        }, 5000, ((1 + random.nextInt(5)) * 1000));
+        }, delay);
+    }
+
+    private static int getRandomTime(){
+        int time;
+        if(gameStart){
+            time = (5 + random.nextInt(6)) * 1000;
+            gameStart = false;
+        } else {
+            time = (1 + random.nextInt(6)) * 1000;
+        }
+        return time;
     }
 
     private static void selectRandomBeer() {
