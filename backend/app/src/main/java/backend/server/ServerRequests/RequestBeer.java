@@ -22,14 +22,17 @@ public class RequestBeer implements ServerRequestInterface {
             Log.i("Comm", "beer clickable");
             if(isBeer_crushable()){
                 Log.i("Comm", "beer crushable");
+                // TODO: send (and set in Config.players list) calculated points for current/clicked beer
                 server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" SUCCESS!!!"});
                 setBeer_crushable(false);
             } else {
                 Log.i("Comm", "too late to crush");
+                // TODO: send (and set in Config.players list) minus points for late click
                 server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" LATE!!!"});
             }
         } else {
             Log.i("Comm", "misclicked");
+            // TODO: send (and set in Config.players list) minus points for misclick
             server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" MISCLICKED!!!"});
         }
     }

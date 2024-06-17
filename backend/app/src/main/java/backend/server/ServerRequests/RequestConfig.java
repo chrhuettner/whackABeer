@@ -2,6 +2,7 @@ package backend.server.ServerRequests;
 
 import android.util.Log;
 
+import backend.object.Player;
 import backend.server.ServerNetwork;
 import shared.Config;
 import shared.Constants;
@@ -24,7 +25,8 @@ public class RequestConfig implements ServerRequestInterface {
                 switch (specifiedParam) {
                     case "playerName":
                         Log.i("Comm", "playerName given " + newText + " " + specifiedParam);
-                        Config.players.add(newText);
+                        Player player = new Player(clientID, newText, 0);
+                        Config.players.add(player);     // Only Server has access to the whole list of players
                         server.sendToClient(clientID, Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, new String[]{newText + " " + Constants.PLAYER_NAME});
                         break;
                     case Constants.SERVER_NAME:

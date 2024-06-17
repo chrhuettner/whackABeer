@@ -3,6 +3,8 @@ package shared;
 
 import java.util.ArrayList;
 
+import backend.object.Player;
+
 public class Config {
 
     public static int clientID = -1;
@@ -16,7 +18,7 @@ public class Config {
 
     public static int MAX_CLIENTS = 6;
 
-    public static ArrayList<String> players = new ArrayList<>();
+    public static ArrayList<Player> players = new ArrayList<>();
 
 
 }
