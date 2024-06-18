@@ -27,6 +27,6 @@ whackABeer ist eine Android App bei der es darum geht "schlechte" Bierdosen wenn
 
 # Arbeitsaufteilung
 
-* Gameplay: Kornfeld, Mrsic
+* Game Logic: Kornfeld, Mrsic
 * Server: Hüttner
 * GUI: Kornfeld, Mrsic
