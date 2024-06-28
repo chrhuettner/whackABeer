@@ -1,4 +1,4 @@
-# Structure
+# Network Structure
 Messages structure (exception: IPINNIT):
 [activityName]:[MessageType] [payload]
 (Notice that there is a space character between message type and payload)
@@ -18,7 +18,7 @@ The server receives messages and passes them to the matching ServerResponse clas
 
 When an AppcompatActivity gets started, it has to register itself to the ClientResponseHandler (or HostResponseHandler), so eventual calls to the response handlers are able to influence the UI. 
 
-# Example: Ping
+## Example: Ping
 
 The server action handler searches for an implementation of ServerRequestInterface that got registered with the message type Constants.PING.
 
@@ -46,11 +46,35 @@ The server receives this message in the network connection class which passes th
 
 The host reponse object then displays a toast "Received ping from client".
 
-# How to add functionality
+## How to add functionality
 * Add server request by creating a class that implements the ServerRequestInterface. This enables the class to send messages to clients.
 * Register the server request in the action map of the Server request handler (in the static brackets)
 * You can now call this server request with the static method: ServerRequestHandler.triggerAction([TYPE], [PARAMETER]);
 
 The above steps are similar for client responses and host responses. These responses can access the assigned AppCompatActivity to influence the UI.
 
+## Example for added functionality: Send the "click on a beer" through network (Client to Server and Server to Client Communication)
+
+1. A Client sends the beer which was clicked on. The Client can do this in the GameActivity: ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID + ";" + beerName);. 
+  The Client needs to specify its activity(GameActivity) and the Constant for clicking beer, which signifies the type of message (must be created beforehand). The clientID and the name of the clicked beer is added in the payload (delimited by ';', do not use ' '(space) as a delimiter, because network traffic separates the whole message by spaces)
+2. Then a RespondToClick is registered in the Host Responses (like described in the "How to add functionality" section). From there the client message is finally sent to the server by calling ServerRequestHandler.triggerAction(Constants.CLICKED_BEER, clientMessage);
+3. A ServerRequest must be added to handle it (RequestBeer): Again registering the request in the static brackets
+4. Then the server uses the game logic to handle the request and then calls server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" myMessageToClient"});
+5. Again the ClientResponseHandler must register the request in the static brackets (RespondToClick)
+6. In RespondToClick the Client can set every item in its activity using the R class
+
+# App Structure
+
+Every page that can be seen in the app has its own activity and xml-file. 
+
+Every new activity is loaded via intents. Communication between activities either works with the Constants and Config Files or with intents.
+
+In the activities viewBinding is used instead of findViewById. For the ClientResponses this is not possible and therefore the R class is used with findViewById.
+
+The SinglePlayerActivity and the lobby for Multiplayer loads the same GameActivity (SinglePlayer-Mode equals Multiplayer-Mode with one Client).
+
+The GameActivity can register single and double taps on beers, which is used for points calculation.
+
+The navigation and status bar are hidden always. The screen is locked in portrait mode always. This must be added in every onCreate method.
+  
 
