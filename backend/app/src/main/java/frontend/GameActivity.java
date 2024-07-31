@@ -27,7 +27,7 @@ import backend.client.ResponseLogic;
 import backend.network.NetworkConnection;
 import backend.server.ServerRequestHandler;
 import android.os.CountDownTimer;
-import backend.database.DatabasseHelper;
+import backend.database.DatabaseHelper;
 import shared.Config;
 import shared.Constants;
 import whack.beer.R;
