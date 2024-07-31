@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.os.CountDownTimer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -34,7 +35,7 @@ import whack.beer.databinding.GameLayoutBinding;
 public class GameActivity extends AppCompatActivity implements ClickHandler {
     private GameLayoutBinding binding;
     private int[] beerIDs = new int[12];
-
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         // Only the host starts the game
         if(Config.role == Config.ROLE.SERVER) {
             ServerRequestHandler.triggerAction(Constants.GAME_START, "P");
+            startTimer();
         }
 
         beerIDs[0] = R.id.beer1;
@@ -101,6 +103,9 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
     }
 
     public void onCloseClicked(View view) {
+
+        Intent intent = new Intent(GameActivity.this, EndActivity.class);
+        startActivity(intent);
         finish();
     }
 
@@ -159,5 +164,26 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
     }
+    private void startTimer() {
+        //Timer wird auf 60 Sekunden gesetzt (Spielzeit)
+        countDownTimer = new CountDownTimer(60000, 1000) {
 
+            public void onTick(long millisUntilFinished) {
+                timerTextView.setText("Time remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                timerTextView.setText("Time's up!");
+                endGame();
+            }
+        }.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
 }
