@@ -45,6 +45,11 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
+        <activity
+            android:name="frontend.HighscoreActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
     </application>
 
 
