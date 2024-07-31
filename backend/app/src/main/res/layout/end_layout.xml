@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bierchen_new"
-    tools:context=".EndActivity">
+    tools:context="frontend.EndActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,39 +12,50 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:text="Spiel beendet"
-        android:textSize="36sp"
-        android:textColor="@color/punti_blau" />
+        android:textColor="@color/punti_blau"
+        android:textSize="36sp" />
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="454dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="100dp"
         android:stretchColumns="1">
 
-        <!-- Table header -->
         <TableRow>
+
             <TextView
+                android:padding="16dp"
                 android:text="Name"
-                android:padding="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="400dp"
+                android:layout_gravity="center_horizontal"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textStyle="bold" />
             <TextView
-                android:text="Punkte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:layout_marginTop="400dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Punkte"
+                android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:textStyle="bold" />
+
         </TableRow>
     </TableLayout>
+
+
 
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="600dp"
         android:text="Zurück zum Start" />
 </FrameLayout>

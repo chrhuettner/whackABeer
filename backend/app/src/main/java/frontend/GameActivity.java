@@ -1,32 +1,21 @@
 package frontend;
 
-import static backend.client.ClientResponseHandler.client;
-import static frontend.SinglePlayerActivity.logic;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.SpannableString;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.CountDownTimer;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import java.util.HashMap;
 
 import backend.client.ClientResponseHandler;
-import backend.client.ResponseLogic;
-import backend.network.NetworkConnection;
 import backend.server.ServerRequestHandler;
-import android.os.CountDownTimer;
 import backend.database.DatabaseHelper;
 import shared.Config;
 import shared.Constants;
@@ -39,6 +28,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
     private int[] beerIDs = new int[12];
     private CountDownTimer countDownTimer;
     private DatabaseHelper db;
+    private TextView timerTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +38,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         View viewBinder = binding.getRoot();
         setContentView(viewBinder);
 
+        timerTextView = findViewById(R.id.timerTextView);
         initializeDisplay();
 
         Intent intent = getIntent();
@@ -55,7 +46,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         String playerName = (String) bundle.get("playerName");
         binding.descriptionForGame.setText(playerName);
 
-        db = new DatabaseHandler(GameActivity.this);
+        db = new DatabaseHelper(GameActivity.this);
 
         String preActivity = (String) bundle.get("preActivity");
         if(preActivity.equals("SinglePlayer")) {
@@ -182,7 +173,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
 
             public void onFinish() {
                 timerTextView.setText("Ende");
-                onCloseClicked();
+                onCloseClicked(null);
             }
         }.start();
     }

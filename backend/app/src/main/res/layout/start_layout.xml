@@ -64,7 +64,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="50dp"
         android:textSize="20sp"
         android:text="About us"
         android:textColor="@color/punti_blau"
