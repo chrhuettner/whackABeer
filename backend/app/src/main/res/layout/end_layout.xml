@@ -57,5 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="600dp"
+        android:background="@drawable/button_rounded_shape"
+        android:textColor="@color/white"
         android:text="Zurück zum Start" />
 </FrameLayout>

@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import backend.object.Player;
+import shared.Config;
 import whack.beer.R;
 
 //Mit ChatGPT erstellt und bearbeitet
@@ -24,15 +26,8 @@ public class EndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.end_layout);
 
-        Intent intent = getIntent();
-        String palyerName = intent.getStringExtra("Name");
-        String playerPoints = intent.getStringExtra("Punkte");
-
         playersList = new ArrayList<>();
-        HashMap<String, String> player = new HashMap<>();
-        player.put("name", palyerName);
-        player.put("punkte", playerPoints);
-        playersList.add(player);
+        fillPlayerList();
 
         tableLayout = findViewById(R.id.tableLayout);
         button = findViewById(R.id.backButton);
@@ -64,6 +59,15 @@ public class EndActivity extends AppCompatActivity {
             row.addView(pointsTextView);
 
             tableLayout.addView(row);
+        }
+    }
+
+    private void fillPlayerList(){
+        for(Player player: Config.players){
+            HashMap<String, String> p = new HashMap<>();
+            p.put("name", player.getName());
+            p.put("punkte", ""+player.getPoints());
+            playersList.add(p);
         }
     }
 }

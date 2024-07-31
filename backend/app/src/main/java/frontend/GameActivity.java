@@ -15,6 +15,7 @@ import android.os.CountDownTimer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import backend.client.ClientResponseHandler;
+import backend.object.Player;
 import backend.server.ServerRequestHandler;
 import backend.database.DatabaseHelper;
 import shared.Config;
@@ -26,9 +27,12 @@ import whack.beer.databinding.GameLayoutBinding;
 public class GameActivity extends AppCompatActivity implements ClickHandler {
     private GameLayoutBinding binding;
     private int[] beerIDs = new int[12];
+    private int[] beerPoints = new int[12];
     private CountDownTimer countDownTimer;
     private DatabaseHelper db;
     private TextView timerTextView;
+    private TextView pointsTextView;
+    private int playerPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         setContentView(viewBinder);
 
         timerTextView = findViewById(R.id.timerTextView);
+        pointsTextView = findViewById(R.id.points);
         initializeDisplay();
 
         Intent intent = getIntent();
@@ -85,6 +90,19 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         for (int i = 0; i < beerIDs.length; i++) {
             setupGestureDetector(beerIDs[i]);
         }
+
+        beerPoints[0] = 4;
+        beerPoints[1] = -1;
+        beerPoints[2] = 1;
+        beerPoints[3] = 4;
+        beerPoints[4] = -5;
+        beerPoints[5] = 1;
+        beerPoints[6] = -2;
+        beerPoints[7] = 5;
+        beerPoints[8] = 3;
+        beerPoints[9] = 2;
+        beerPoints[10] = 3;
+        beerPoints[11] = -3;
     }
 
 
@@ -100,10 +118,14 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
 
     public void onCloseClicked(View view) {
         //Todo: Tatsächlichen Spielernamen und Punkte hinzufügen
-        db.setHighscore(1, "TestPerson", 10);
+        int p = 0;
+        for(Player player : Config.players){
+            if(player.getId() == Config.clientID){
+                p = player.getPoints();
+            }
+        }
+        db.setHighscore(Config.clientID, Config.PLAYER_NAME, p);
         Intent intent = new Intent(GameActivity.this, EndActivity.class);
-        intent.putExtra("playerList", "Testperson");
-        intent.putExtra("Punkte", 10);
         startActivity(intent);
         finish();
     }
@@ -123,26 +145,48 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         }
         return beerName;
     }
+
+    private int getBeerPointsById(int id) {
+        int points = 0;
+
+        for (int i = 0; i < beerIDs.length; i++) {
+            if(beerIDs[i] == id){
+                points = beerPoints[i];
+                i++;
+                break;
+            }
+        }
+
+        return points;
+    }
+
     @Override
     public void onBeerClick(View view) {
         String beerName = getBeerNameById(view.getId());
+        int points = getBeerPointsById(view.getId());
         if (beerName == null) {
             Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
         }
+        playerPoints += points;
+        updatePointsTextView();
 
         Log.d("Taps", "Single Tap for " + beerName);
-        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID + ";" + beerName);
+        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID + ";" + beerName + ";" + points);
     }
 
     @Override
     public void onBeerDoubleClick(View view) {
         String beerName = getBeerNameById(view.getId());
+        int points = getBeerPointsById(view.getId());
+
         if(beerName == null) {
             Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
         }
+        playerPoints += points;
+        updatePointsTextView();
 
         Log.d("Taps","Double Tap for " + beerName);
-        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID+ ";"+beerName);
+        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID+ ";"+beerName + ";" + (2*points));
     }
 
     @Override
@@ -184,5 +228,9 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+
+    private void updatePointsTextView() {
+        pointsTextView.setText("Points: "+String.valueOf(playerPoints));
     }
 }
