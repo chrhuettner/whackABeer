@@ -1,6 +1,8 @@
 package frontend;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -8,38 +10,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import backend.object.Player;
+import shared.Config;
+import whack.beer.R;
+
 //Mit ChatGPT erstellt und bearbeitet
 public class EndActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
-    private ArrayList<HashMap<String, int>> playersList;
+    private ArrayList<HashMap<String, String>> playersList;
     private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_end);
-
-        Intent intent = getIntent();
-        String palyerName = intent.getStringExtra("Name");
-        int playerPoints = intent.getIntExtra("Punkte");
+        setContentView(R.layout.end_layout);
 
         playersList = new ArrayList<>();
-        HashMap<String, int> player = new HashMap<>();
-        player.put("name", palyerName);
-        player.put("punkte", playerPoints);
-        playersList.add(player);
+        fillPlayerList();
 
         tableLayout = findViewById(R.id.tableLayout);
-        backButton = findViewById(R.id.backButton);
+        button = findViewById(R.id.backButton);
 
         if (playersList != null) {
             populateTable(playersList);
         }
 
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(EndActivity.this, StartActivity.class);
-            startActivity(intent);
+        button.setOnClickListener(v -> {
+            Intent intent2 = new Intent(EndActivity.this, StartActivity.class);
+            startActivity(intent2);
             finish();
         });
     }
@@ -60,6 +59,15 @@ public class EndActivity extends AppCompatActivity {
             row.addView(pointsTextView);
 
             tableLayout.addView(row);
+        }
+    }
+
+    private void fillPlayerList(){
+        for(Player player: Config.players){
+            HashMap<String, String> p = new HashMap<>();
+            p.put("name", player.getName());
+            p.put("punkte", ""+player.getPoints());
+            playersList.add(p);
         }
     }
 }

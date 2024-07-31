@@ -1,10 +1,15 @@
 package backend.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
-class DatabaseHelper extends SQLiteOpenHelper{
+import androidx.annotation.Nullable;
+
+public class DatabaseHelper extends SQLiteOpenHelper{
 
     private Context context;
     private static final String DATABASE_NAME ="whack_a_beer.db";
@@ -25,13 +30,14 @@ class DatabaseHelper extends SQLiteOpenHelper{
         String query = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY, " + COLUMN_USER_NAME + " TEXT, " + COLUMN_SCORE + " INTEGER);";
         db.execSQL(query);
     }
+
     @Override
-    public void onUpdate(SQLiteDatabase db, int i, int i1){
+    public void onUpgrade(SQLiteDatabase db, int i, int i1){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
-    void setHighscore(int id, String name, int score){
+    public void setHighscore(int id, String name, int score){
         int points = getCurrentHighscore();
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -41,10 +47,10 @@ class DatabaseHelper extends SQLiteOpenHelper{
         cv.put(COLUMN_USER_NAME, name);
         cv.put(COLUMN_SCORE, score);
 
-        if(points !== null && points < score) {
+        if(points < score) {
             long result = db.insert(TABLE_NAME, null, cv);
 
-            if (resault == -1) {
+            if (result == -1) {
                 Toast.makeText(context, "Fehler beim Aktualisieren des Highscores", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, name + " hat den Highscore geknackt", Toast.LENGTH_SHORT).show();
@@ -52,12 +58,18 @@ class DatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
-    int getCurrentHighscore(){
+    public int getCurrentHighscore(){
         SQLiteDatabase db = this.getReadableDatabase();
 
         String readQuery = "SELECT " + COLUMN_SCORE + " FROM " + TABLE_NAME + " ORDER BY " + COLUMN_SCORE + " DESC LIMIT 1";
-        int points = db.rawQuery(readQuery, null);
+        Cursor cursor = db.rawQuery(readQuery, null);
 
-        return points;
+        int highscore = 0;
+        if (cursor.moveToFirst()) {
+            highscore = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return highscore;
     }
 }

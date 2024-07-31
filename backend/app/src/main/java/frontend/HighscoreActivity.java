@@ -2,18 +2,14 @@ package frontend;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import whack.beer.R;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import backend.database.DatabaseHelper;
 
 public class HighscoreActivity extends AppCompatActivity {
@@ -25,16 +21,16 @@ public class HighscoreActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.highscore);
+        setContentView(R.layout.highscore_layout);
 
         initializeDisplay();
 
-        db = new DatabaseHandler(HighscoreActivity.this);
+        db = new DatabaseHelper(HighscoreActivity.this);
 
         highscoreValue = findViewById(R.id.highscoreValue);
         backToStartButton = findViewById(R.id.backToStartButton);
 
-        int highscore = (int) db.getCurrentHighscore();
+        int highscore = db.getCurrentHighscore();
         highscoreValue.setText(String.valueOf(highscore));
 
         // Set click listener for the back to start button
