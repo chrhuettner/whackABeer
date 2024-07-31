@@ -13,19 +13,35 @@ public class EndActivity extends AppCompatActivity {
 
     private TableLayout tableLayout;
     private ArrayList<HashMap<String, int>> playersList;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
 
-        tableLayout = findViewById(R.id.tableLayout);
+        Intent intent = getIntent();
+        String palyerName = intent.getStringExtra("Name");
+        int playerPoints = intent.getIntExtra("Punkte");
 
-        playersList = (ArrayList<HashMap<String, int>>) getIntent().getSerializableExtra("playersList");
+        playersList = new ArrayList<>();
+        HashMap<String, int> player = new HashMap<>();
+        player.put("name", palyerName);
+        player.put("punkte", playerPoints);
+        playersList.add(player);
+
+        tableLayout = findViewById(R.id.tableLayout);
+        backButton = findViewById(R.id.backButton);
 
         if (playersList != null) {
             populateTable(playersList);
         }
+
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EndActivity.this, StartActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void populateTable(ArrayList<HashMap<String, String>> playersList) {
@@ -37,7 +53,7 @@ public class EndActivity extends AppCompatActivity {
             nameTextView.setPadding(16, 16, 16, 16);
 
             TextView pointsTextView = new TextView(this);
-            pointsTextView.setText(player.get("points"));
+            pointsTextView.setText(player.get("punkte"));
             pointsTextView.setPadding(16, 16, 16, 16);
 
             row.addView(nameTextView);

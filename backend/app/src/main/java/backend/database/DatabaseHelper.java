@@ -32,6 +32,8 @@ class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     void setHighscore(int id, String name, int score){
+        int points = getCurrentHighscore();
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -39,12 +41,23 @@ class DatabaseHelper extends SQLiteOpenHelper{
         cv.put(COLUMN_USER_NAME, name);
         cv.put(COLUMN_SCORE, score);
 
-        long result = db.insert(TABLE_NAME, null, cv);
+        if(points !== null && points < score) {
+            long result = db.insert(TABLE_NAME, null, cv);
 
-        if(resault == -1){
-            Toast.makeText(context, "Failed to udpate the Highscore", Toast.LENGTH_SHORT).show();
-        } else{
-            Toast.makeText(context, name + " made a new Highscore", Toast.LENGTH_SHORT).show();
+            if (resault == -1) {
+                Toast.makeText(context, "Fehler beim Aktualisieren des Highscores", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, name + " hat den Highscore geknackt", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+
+    int getCurrentHighscore(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String readQuery = "SELECT " + COLUMN_SCORE + " FROM " + TABLE_NAME + " ORDER BY " + COLUMN_SCORE + " DESC LIMIT 1";
+        int points = db.rawQuery(readQuery, null);
+
+        return points;
     }
 }

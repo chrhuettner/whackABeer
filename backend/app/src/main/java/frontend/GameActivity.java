@@ -26,6 +26,8 @@ import backend.client.ClientResponseHandler;
 import backend.client.ResponseLogic;
 import backend.network.NetworkConnection;
 import backend.server.ServerRequestHandler;
+import android.os.CountDownTimer;
+import backend.database.DatabasseHelper;
 import shared.Config;
 import shared.Constants;
 import whack.beer.R;
@@ -36,6 +38,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
     private GameLayoutBinding binding;
     private int[] beerIDs = new int[12];
     private CountDownTimer countDownTimer;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         Bundle bundle = intent.getExtras();
         String playerName = (String) bundle.get("playerName");
         binding.descriptionForGame.setText(playerName);
+
+        db = new DatabaseHandler(GameActivity.this);
 
         String preActivity = (String) bundle.get("preActivity");
         if(preActivity.equals("SinglePlayer")) {
@@ -103,8 +108,11 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
     }
 
     public void onCloseClicked(View view) {
-
+        //Todo: Tatsächlichen Spielernamen und Punkte hinzufügen
+        db.setHighscore(1, "TestPerson", 10);
         Intent intent = new Intent(GameActivity.this, EndActivity.class);
+        intent.putExtra("playerList", "Testperson");
+        intent.putExtra("Punkte", 10);
         startActivity(intent);
         finish();
     }
@@ -169,12 +177,12 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         countDownTimer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                timerTextView.setText("Time remaining: " + millisUntilFinished / 1000);
+                timerTextView.setText("Spielzeit: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-                timerTextView.setText("Time's up!");
-                endGame();
+                timerTextView.setText("Ende");
+                onCloseClicked();
             }
         }.start();
     }
