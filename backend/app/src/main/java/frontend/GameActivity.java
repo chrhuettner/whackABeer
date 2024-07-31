@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.os.CountDownTimer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -25,6 +26,8 @@ import backend.client.ClientResponseHandler;
 import backend.client.ResponseLogic;
 import backend.network.NetworkConnection;
 import backend.server.ServerRequestHandler;
+import android.os.CountDownTimer;
+import backend.database.DatabaseHelper;
 import shared.Config;
 import shared.Constants;
 import whack.beer.R;
@@ -34,7 +37,8 @@ import whack.beer.databinding.GameLayoutBinding;
 public class GameActivity extends AppCompatActivity implements ClickHandler {
     private GameLayoutBinding binding;
     private int[] beerIDs = new int[12];
-
+    private CountDownTimer countDownTimer;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         Bundle bundle = intent.getExtras();
         String playerName = (String) bundle.get("playerName");
         binding.descriptionForGame.setText(playerName);
+
+        db = new DatabaseHandler(GameActivity.this);
 
         String preActivity = (String) bundle.get("preActivity");
         if(preActivity.equals("SinglePlayer")) {
@@ -69,6 +75,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         // Only the host starts the game
         if(Config.role == Config.ROLE.SERVER) {
             ServerRequestHandler.triggerAction(Constants.GAME_START, "P");
+            startTimer();
         }
 
         beerIDs[0] = R.id.beer1;
@@ -101,6 +108,12 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
     }
 
     public void onCloseClicked(View view) {
+        //Todo: Tatsächlichen Spielernamen und Punkte hinzufügen
+        db.setHighscore(1, "TestPerson", 10);
+        Intent intent = new Intent(GameActivity.this, EndActivity.class);
+        intent.putExtra("playerList", "Testperson");
+        intent.putExtra("Punkte", 10);
+        startActivity(intent);
         finish();
     }
 
@@ -159,5 +172,26 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
     }
+    private void startTimer() {
+        //Timer wird auf 60 Sekunden gesetzt (Spielzeit)
+        countDownTimer = new CountDownTimer(60000, 1000) {
 
+            public void onTick(long millisUntilFinished) {
+                timerTextView.setText("Spielzeit: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                timerTextView.setText("Ende");
+                onCloseClicked();
+            }
+        }.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
 }
