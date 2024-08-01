@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String query = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY, " + COLUMN_USER_NAME + " TEXT, " + COLUMN_SCORE + " INTEGER);";
+        String query = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USER_NAME + " TEXT, " + COLUMN_SCORE + " INTEGER);";
         db.execSQL(query);
     }
 
@@ -37,13 +37,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void setHighscore(int id, String name, int score){
+    public void setHighscore(String name, int score){
         int points = getCurrentHighscore();
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_USER_ID, id);
         cv.put(COLUMN_USER_NAME, name);
         cv.put(COLUMN_SCORE, score);
 
@@ -61,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public int getCurrentHighscore(){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String readQuery = "SELECT " + COLUMN_SCORE + " FROM " + TABLE_NAME + " ORDER BY " + COLUMN_SCORE + " DESC LIMIT 1";
+        String readQuery = "SELECT " + COLUMN_SCORE + " FROM " + TABLE_NAME + " ORDER BY " + COLUMN_SCORE + " ASC LIMIT 1";
         Cursor cursor = db.rawQuery(readQuery, null);
 
         int highscore = 0;
@@ -71,5 +70,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         cursor.close();
         return highscore;
+    }
+
+    public String getCurrentHighscorePlayerName(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String readQuery = "SELECT " + COLUMN_USER_NAME + " FROM " + TABLE_NAME + " ORDER BY " + COLUMN_SCORE + " ASC LIMIT 1";
+        Cursor cursor = db.rawQuery(readQuery, null);
+
+        String name = "";
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(0);
+        }
+
+        cursor.close();
+        return name;
     }
 }
