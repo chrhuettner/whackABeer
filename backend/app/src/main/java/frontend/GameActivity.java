@@ -91,18 +91,18 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
             setupGestureDetector(beerIDs[i]);
         }
 
-        beerPoints[0] = 4;
-        beerPoints[1] = -1;
-        beerPoints[2] = 1;
-        beerPoints[3] = 4;
-        beerPoints[4] = -5;
-        beerPoints[5] = 1;
-        beerPoints[6] = -2;
-        beerPoints[7] = 5;
-        beerPoints[8] = 3;
-        beerPoints[9] = 2;
-        beerPoints[10] = 3;
-        beerPoints[11] = -3;
+        beerPoints[0] = getResources().getInteger(R.integer.Egger);
+        beerPoints[1] = getResources().getInteger(R.integer.Gösser);
+        beerPoints[2] = getResources().getInteger(R.integer.Ottakringer);
+        beerPoints[3] = getResources().getInteger(R.integer.Edelweiss);
+        beerPoints[4] = getResources().getInteger(R.integer.Puntigamer);
+        beerPoints[5] = getResources().getInteger(R.integer.Stiegl);
+        beerPoints[6] = getResources().getInteger(R.integer.Murauer);
+        beerPoints[7] = getResources().getInteger(R.integer.Schwechater);
+        beerPoints[8] = getResources().getInteger(R.integer.Weiselburger);
+        beerPoints[9] = getResources().getInteger(R.integer.Zipfer);
+        beerPoints[10] = getResources().getInteger(R.integer.Kaiser);
+        beerPoints[11] = getResources().getInteger(R.integer.Villacher);
     }
 
 

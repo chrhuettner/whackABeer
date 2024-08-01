@@ -21,18 +21,18 @@ public class BierActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
 
         List<Beer> beers = new ArrayList<>();
-        beers.add(new Beer("Egger", 4));
-        beers.add(new Beer("Gösser", -1));
-        beers.add(new Beer("Ottakringer", 1));
-        beers.add(new Beer("Edelweiss", 4));
-        beers.add(new Beer("Puntigamer", -5));
-        beers.add(new Beer("Stiegl", 1));
-        beers.add(new Beer("Murauer", -2));
-        beers.add(new Beer("Schwechater", 5));
-        beers.add(new Beer("Wieselburger", 3));
-        beers.add(new Beer("Zipfer", 2));
-        beers.add(new Beer("Kaiser", 3));
-        beers.add(new Beer("Villacher", -3));
+        beers.add(new Beer("Egger", getResources().getInteger(R.integer.Egger)));
+        beers.add(new Beer("Gösser", getResources().getInteger(R.integer.Gösser)));
+        beers.add(new Beer("Ottakringer", getResources().getInteger(R.integer.Ottakringer)));
+        beers.add(new Beer("Edelweiss", getResources().getInteger(R.integer.Edelweiss)));
+        beers.add(new Beer("Puntigamer", getResources().getInteger(R.integer.Puntigamer)));
+        beers.add(new Beer("Stiegl", getResources().getInteger(R.integer.Stiegl)));
+        beers.add(new Beer("Murauer", getResources().getInteger(R.integer.Murauer)));
+        beers.add(new Beer("Schwechater", getResources().getInteger(R.integer.Schwechater)));
+        beers.add(new Beer("Weiselburger", getResources().getInteger(R.integer.Weiselburger)));
+        beers.add(new Beer("Zipfer", getResources().getInteger(R.integer.Zipfer)));
+        beers.add(new Beer("Kaiser", getResources().getInteger(R.integer.Kaiser)));
+        beers.add(new Beer("Villacher", getResources().getInteger(R.integer.Villacher)));
 
         BeerAdapter adapter = new BeerAdapter(this, beers);
         listView.setAdapter(adapter);
