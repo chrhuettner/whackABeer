@@ -22,7 +22,15 @@
             android:textSize="36sp"
             android:textColor="@color/white"
             android:layout_marginBottom="32dp"/>
-
+        <TextView
+            android:id="@+id/highscorePlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp"/>
         <TextView
             android:id="@+id/highscoreValue"
             android:layout_width="wrap_content"

@@ -31,13 +31,13 @@ public class RequestBeer implements ServerRequestInterface {
             } else {
                 Log.i("Comm", "too late to crush");
                 // TODO: send (and set in Config.players list) minus points for late click
-                setPlayerPoints(id, -1);
+                setPlayerPoints(id, -points-1);
                 server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" LATE!!!"});
             }
         } else {
             Log.i("Comm", "misclicked");
             // TODO: send (and set in Config.players list) minus points for misclick
-            setPlayerPoints(id, -3);
+            setPlayerPoints(id, -points-3);
             server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" MISCLICKED!!!"});
         }
     }

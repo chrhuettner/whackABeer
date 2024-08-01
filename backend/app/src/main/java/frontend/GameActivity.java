@@ -117,16 +117,6 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
     }
 
     public void onCloseClicked(View view) {
-        //Todo: Tatsächlichen Spielernamen und Punkte hinzufügen
-        int p = 0;
-        for(Player player : Config.players){
-            if(player.getId() == Config.clientID){
-                p = player.getPoints();
-            }
-        }
-        db.setHighscore(Config.clientID, Config.PLAYER_NAME, p);
-        Intent intent = new Intent(GameActivity.this, EndActivity.class);
-        startActivity(intent);
         finish();
     }
 
@@ -217,7 +207,17 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
 
             public void onFinish() {
                 timerTextView.setText("Ende");
-                onCloseClicked(null);
+                //Todo: Tatsächlichen Spielernamen und Punkte hinzufügen
+                int p = 0;
+                for(Player player : Config.players){
+                    if(player.getId() == Config.clientID){
+                        p = player.getPoints();
+                    }
+                }
+                db.setHighscore(Config.PLAYER_NAME, p);
+                Intent intent = new Intent(GameActivity.this, EndActivity.class);
+                startActivity(intent);
+                finish();
             }
         }.start();
     }

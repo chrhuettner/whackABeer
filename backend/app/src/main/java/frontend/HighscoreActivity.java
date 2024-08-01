@@ -15,6 +15,7 @@ import backend.database.DatabaseHelper;
 public class HighscoreActivity extends AppCompatActivity {
 
     private TextView highscoreValue;
+    private TextView highscorePlayerName;
     private Button backToStartButton;
     private DatabaseHelper db;
 
@@ -29,9 +30,13 @@ public class HighscoreActivity extends AppCompatActivity {
 
         highscoreValue = findViewById(R.id.highscoreValue);
         backToStartButton = findViewById(R.id.backToStartButton);
+        highscorePlayerName = findViewById(R.id.highscorePlayerName);
 
         int highscore = db.getCurrentHighscore();
         highscoreValue.setText(String.valueOf(highscore));
+
+        String playerName = db.getCurrentHighscorePlayerName();
+        highscorePlayerName.setText(playerName);
 
         // Set click listener for the back to start button
         backToStartButton.setOnClickListener(v -> {
