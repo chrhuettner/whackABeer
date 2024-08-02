@@ -24,30 +24,29 @@ public class RequestBeer implements ServerRequestInterface {
             Log.i("Comm", "beer clickable");
             if(isBeer_crushable()){
                 Log.i("Comm", "beer crushable");
-                // TODO: send (and set in Config.players list) calculated points for current/clicked beer
-                setPlayerPoints(id, points);
-                server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" SUCCESS!!!"});
+                int newPoints = setPlayerPoints(id, points);
+                server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" SUCCESS!!!", ""+newPoints});
                 setBeer_crushable(false);
             } else {
                 Log.i("Comm", "too late to crush");
-                // TODO: send (and set in Config.players list) minus points for late click
-                setPlayerPoints(id, -points-1);
-                server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" LATE!!!"});
+                int newPoints = setPlayerPoints(id, -1);
+                server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" LATE!!!", ""+newPoints});
             }
         } else {
             Log.i("Comm", "misclicked");
-            // TODO: send (and set in Config.players list) minus points for misclick
-            setPlayerPoints(id, -points-3);
-            server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" MISCLICKED!!!"});
+            int newPoints = setPlayerPoints(id, -3);
+            server.sendToClient(id, Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, new String[]{clickedBeer+" MISCLICKED!!!", ""+newPoints});
         }
     }
 
-    private void setPlayerPoints(int id, int points){
+    private int setPlayerPoints(int id, int points){
         for(Player player: Config.players){
             if(player.getId() == id){
-                player.setPoints(points);
+                player.setPoints(player.getPoints()+points);
+                return player.getPoints();
             }
         }
+        return 0;
     }
 
 }

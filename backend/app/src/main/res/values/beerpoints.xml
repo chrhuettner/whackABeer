@@ -1,0 +1,14 @@
+<resources>
+    <integer name="Egger">4</integer>
+    <integer name="Gösser">-1</integer>
+    <integer name="Ottakringer">1</integer>
+    <integer name="Edelweiss">4</integer>
+    <integer name="Puntigamer">-5</integer>
+    <integer name="Stiegl">1</integer>
+    <integer name="Murauer">-2</integer>
+    <integer name="Schwechater">5</integer>
+    <integer name="Weiselburger">3</integer>
+    <integer name="Zipfer">2</integer>
+    <integer name="Kaiser">3</integer>
+    <integer name="Villacher">-3</integer>
+</resources>

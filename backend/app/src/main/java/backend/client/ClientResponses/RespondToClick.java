@@ -17,11 +17,15 @@ public class RespondToClick implements ClientResponseInterface {
         String[] params = clientMessage.split(" ");
         String beer = params[1];
         String message = params[2];
-        Log.i("Comm","RECEIVED "+beer +" " +message);
+        String[] msg = message.split(";");
+        Log.i("Comm","RECEIVED "+beer +" " +msg[0]);
 
+        String points = msg[1];
         TextView gotPoint = activity.findViewById(R.id.gotPoint);
-        gotPoint.setText(message);
-        if(!message.equals("SUCCESS!!!")){
+        gotPoint.setText(msg[0]);
+        TextView pointsView = activity.findViewById(R.id.points);
+        pointsView.setText("Points: "+ points);
+        if(!msg[0].equals("SUCCESS!!!")){
             int red = ContextCompat.getColor(activity, R.color.red_600);
             gotPoint.setBackgroundColor(red);
         } else {

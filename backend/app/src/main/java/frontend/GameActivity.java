@@ -54,7 +54,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         db = new DatabaseHelper(GameActivity.this);
 
         String preActivity = (String) bundle.get("preActivity");
-        if(preActivity.equals("SinglePlayer")) {
+        if (preActivity.equals("SinglePlayer")) {
             frontend.SinglePlayerActivity.logic.registerServerResponse(Constants.MAIN_ACTIVITY_TYPE, this);
             frontend.SinglePlayerActivity.logic.registerActivity(Constants.MAIN_ACTIVITY_TYPE, this);
         } else {
@@ -66,10 +66,10 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         }
 
         // Initialize Player Name
-        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, playerName+";"+Constants.PLAYER_NAME);
+        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CONFIG, playerName + ";" + Constants.PLAYER_NAME);
 
         // Only the host starts the game
-        if(Config.role == Config.ROLE.SERVER) {
+        if (Config.role == Config.ROLE.SERVER) {
             ServerRequestHandler.triggerAction(Constants.GAME_START, "P");
             startTimer();
         }
@@ -91,24 +91,24 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
             setupGestureDetector(beerIDs[i]);
         }
 
-        beerPoints[0] = 4;
-        beerPoints[1] = -1;
-        beerPoints[2] = 1;
-        beerPoints[3] = 4;
-        beerPoints[4] = -5;
-        beerPoints[5] = 1;
-        beerPoints[6] = -2;
-        beerPoints[7] = 5;
-        beerPoints[8] = 3;
-        beerPoints[9] = 2;
-        beerPoints[10] = 3;
-        beerPoints[11] = -3;
+        beerPoints[0] = getResources().getInteger(R.integer.Egger);
+        beerPoints[1] = getResources().getInteger(R.integer.Gösser);
+        beerPoints[2] = getResources().getInteger(R.integer.Ottakringer);
+        beerPoints[3] = getResources().getInteger(R.integer.Edelweiss);
+        beerPoints[4] = getResources().getInteger(R.integer.Puntigamer);
+        beerPoints[5] = getResources().getInteger(R.integer.Stiegl);
+        beerPoints[6] = getResources().getInteger(R.integer.Murauer);
+        beerPoints[7] = getResources().getInteger(R.integer.Schwechater);
+        beerPoints[8] = getResources().getInteger(R.integer.Weiselburger);
+        beerPoints[9] = getResources().getInteger(R.integer.Zipfer);
+        beerPoints[10] = getResources().getInteger(R.integer.Kaiser);
+        beerPoints[11] = getResources().getInteger(R.integer.Villacher);
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupGestureDetector(int viewId) {
-        Log.i("Taps", ""+viewId);
+        Log.i("Taps", "" + viewId);
         ImageButton button = findViewById(viewId);
         GestureListener listener = new GestureListener(button, this);
         GestureDetector gestureDetector = new GestureDetector(this, listener);
@@ -124,13 +124,13 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         String beerName = "";
 
         for (int i = 0; i < beerIDs.length; i++) {
-            if(beerIDs[i] == id){
+            if (beerIDs[i] == id) {
                 i++;
-                beerName = "beer"+i;
+                beerName = "beer" + i;
                 break;
             }
         }
-        if(beerName.equals("")){
+        if (beerName.equals("")) {
             return null;
         }
         return beerName;
@@ -140,7 +140,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         int points = 0;
 
         for (int i = 0; i < beerIDs.length; i++) {
-            if(beerIDs[i] == id){
+            if (beerIDs[i] == id) {
                 points = beerPoints[i];
                 i++;
                 break;
@@ -157,8 +157,8 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         if (beerName == null) {
             Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
         }
-        playerPoints += points;
-        updatePointsTextView();
+        //playerPoints += points;
+        //
 
         Log.d("Taps", "Single Tap for " + beerName);
         ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID + ";" + beerName + ";" + points);
@@ -169,14 +169,14 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         String beerName = getBeerNameById(view.getId());
         int points = getBeerPointsById(view.getId());
 
-        if(beerName == null) {
+        if (beerName == null) {
             Toast.makeText(this, "Unknown beer clicked!", Toast.LENGTH_SHORT).show();
         }
         playerPoints += points;
         updatePointsTextView();
 
-        Log.d("Taps","Double Tap for " + beerName);
-        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID+ ";"+beerName + ";" + (2*points));
+        Log.d("Taps", "Double Tap for " + beerName);
+        ClientResponseHandler.sendMessageToServer(Constants.MAIN_ACTIVITY_TYPE, Constants.CLICKED_BEER, Config.clientID + ";" + beerName + ";" + (2 * points));
     }
 
     @Override
@@ -184,6 +184,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
         super.onResume();
         initializeDisplay();
     }
+
     public void initializeDisplay() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -197,24 +198,24 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
                         | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         );
     }
+
     private void startTimer() {
-        //Timer wird auf 60 Sekunden gesetzt (Spielzeit)
-        countDownTimer = new CountDownTimer(60000, 1000) {
+        //Timer set to 60 seconds
+        countDownTimer = new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                timerTextView.setText("Spielzeit: " + millisUntilFinished / 1000);
+                timerTextView.setText("Game Time: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-                timerTextView.setText("Ende");
-                //Todo: Tatsächlichen Spielernamen und Punkte hinzufügen
+                //timerTextView.setText("End");
                 int p = 0;
-                for(Player player : Config.players){
-                    if(player.getId() == Config.clientID){
+                for (Player player : Config.players) {
+                    if (player.getId() == Config.clientID) {
                         p = player.getPoints();
+                        db.setHighscore(player.getName(), p);
                     }
                 }
-                db.setHighscore(Config.PLAYER_NAME, p);
                 Intent intent = new Intent(GameActivity.this, EndActivity.class);
                 startActivity(intent);
                 finish();
@@ -231,6 +232,6 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
     }
 
     private void updatePointsTextView() {
-        pointsTextView.setText("Points: "+String.valueOf(playerPoints));
+        pointsTextView.setText("Points: " + String.valueOf(playerPoints));
     }
 }

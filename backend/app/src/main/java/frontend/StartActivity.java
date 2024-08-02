@@ -49,6 +49,11 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void bierliste(View view){
+        Intent intent = new Intent(StartActivity.this, BierActivity.class);
+        startActivity(intent);
+    }
+
     public void initializeDisplay() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
