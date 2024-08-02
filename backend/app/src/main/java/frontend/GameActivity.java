@@ -208,7 +208,7 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
             }
 
             public void onFinish() {
-                timerTextView.setText("End");
+                //timerTextView.setText("End");
                 int p = 0;
                 for (Player player : Config.players) {
                     if (player.getId() == Config.clientID) {
