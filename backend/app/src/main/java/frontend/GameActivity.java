@@ -201,14 +201,13 @@ public class GameActivity extends AppCompatActivity implements ClickHandler {
 
     private void startTimer() {
         //Timer set to 60 seconds
-        countDownTimer = new CountDownTimer(10000, 1000) {
+        countDownTimer = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timerTextView.setText("Game Time: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
-                //timerTextView.setText("End");
                 int p = 0;
                 for (Player player : Config.players) {
                     if (player.getId() == Config.clientID) {
