@@ -15,39 +15,12 @@
         android:textColor="@color/punti_blau"
         android:textSize="36sp" />
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
-        android:layout_height="454dp"
-        android:layout_gravity="center_horizontal"
+    <ListView
+        android:id="@+id/list_view"
         android:layout_marginTop="100dp"
-        android:stretchColumns="1">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <TableRow>
-
-            <TextView
-                android:padding="16dp"
-                android:text="Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_marginTop="400dp"
-                android:layout_gravity="center_horizontal"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginTop="400dp"
-                android:layout_gravity="center_horizontal"
-                android:text="Punkte"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </TableRow>
-    </TableLayout>
 
 
 

@@ -24,7 +24,7 @@ public class ServerRequestHandler {
     private static ServerNetwork server;
     private static Timer timer = new Timer();
     private static Random random = new Random();
-    private static String currentBeer;
+    private static String currentBeer="";
     private static boolean gameStart = true;
 
     private static boolean beer_crushable;
